@@ -1,0 +1,36 @@
+# The URL the site will be built for
+base_url = "https://blog.njagi.me"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+
+taxonomies = [
+  {name = "categories", paginate_by = 5},
+  {name = "tags", paginate_by = 5},
+]
+
+
+theme = "zola-pickles"
+
+title = "Mostly Programming"
+
+
+[extra]
+# A line to display underneath the main title
+subtitle = "Programming, Biology, Data, Books, Life Hacking and More"
+
+# Text to display in the footer of the page
+copyright = "All work is under the terms of the [GNU Free Documentation License, Version 1.3](http://www.gnu.org/copyleft/fdl.html)"
+
+# Your Google Analytics ID
+analytics = ""
+
+# See below
+katex_enable = false

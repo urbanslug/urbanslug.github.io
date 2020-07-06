@@ -1,0 +1,20 @@
+{% extends "zola-pickles/templates/index.html" %}
+
+{% block title -%}
+<title>{{ config.title }} - Categories</title>
+{%- endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+      <p>Categories</p>
+      <ul>
+        {% for category in terms %}
+        <li><a href="{{ category.permalink }}">{{ category.name }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,27 @@
+hr {
+  height: 4px;
+  border-width: 0;
+  background-color: #F0F0F0
+}
+
+
+table {
+  border-collapse: collapse;
+  margin: auto;
+}
+
+th {
+  font-weight: bold;
+  background-color: #fff;
+}
+th, td {
+  text-align: left;
+  padding: 8px 30px 8px 8px;
+  border: none;
+}
+
+thead > tr {
+  border-bottom: 1px solid #000;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
