@@ -33,4 +33,4 @@ copyright = "All work is under the terms of the [GNU Free Documentation License,
 analytics = ""
 
 # See below
-katex_enable = false
+katex_enable = true
