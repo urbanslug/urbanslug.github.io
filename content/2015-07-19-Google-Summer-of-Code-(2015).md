@@ -3,8 +3,8 @@ title = "Google Summer of Code (2015)"
 date = 2015-07-19
 
 [taxonomies]
-categories = []
 tags = ["Programming, GSoC, Yesod, Yesod-Devel"]
+categories = ["Posts"]
 +++
 
 This post is long overdue and I should've started writing on this a while ago but oh well I will write as much in the remaining time and try to make up for lost time.

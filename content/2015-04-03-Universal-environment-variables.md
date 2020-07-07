@@ -3,8 +3,8 @@ title = "Using Emacs with Universal Environment Variables"
 date = 2015-04-02
 
 [taxonomies]
-categories = []
 tags =  ["Emacs", "Shell"]
+categories = ["Posts"]
 +++
 
 We want to have environment variables that are accessible from within emacs and our shell as well as other REPLs (cabal repl or ghci if you're writing haskell).

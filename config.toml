@@ -24,7 +24,7 @@ title = "Mostly Programming"
 
 [extra]
 # A line to display underneath the main title
-subtitle = "Programming, Biology, Data, Books, Life Hacking and More"
+subtitle = "Programming, Bioinformatics, Data, Books, and More"
 
 # Text to display in the footer of the page
 copyright = "All work is under the terms of the [GNU Free Documentation License, Version 1.3](http://www.gnu.org/copyleft/fdl.html)"

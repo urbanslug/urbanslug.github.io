@@ -3,8 +3,8 @@ title = "Object Oriented Programming in C++"
 date = 2014-12-08
 
 [taxonomies]
-categories = []
 tags = ["Programming", "C++", "OOP"]
+categories = ["Posts"]
 +++
 
 These are more like private paraphrased notes. If you wanted to really learn these things a C++ text book or [this wikibooks article] would be better. These things can't be learned in a hurry. Naming conventions are surprisingly different in C++ than they are in other languages. This post assumes you're familiar with what functions, classes, inheritance, objects and so forth are. If you're taking [INF 332] this would be good to read while studying for your exam.

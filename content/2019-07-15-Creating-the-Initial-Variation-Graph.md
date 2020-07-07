@@ -4,7 +4,7 @@ date = 2019-07-15
 
 [taxonomies]
 tags = ["Variation Graphs", "Graphs", "Bioinformatics", "Graphite"]
-categories = []
+categories = ["Posts"]
 +++
 
 Variation graphs represent the reference genome as a graph.

@@ -3,8 +3,8 @@ title = "Emacs Cheatsheet"
 date = 2015-09-11
 
 [taxonomies]
-categories = []
 tags = ["Emacs"]
+categories = ["Posts"]
 +++
 
 These bindings should work for emacs from 24 upwards.  

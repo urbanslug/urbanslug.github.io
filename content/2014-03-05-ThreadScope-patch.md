@@ -3,8 +3,8 @@ title = "ThreadScope Patch"
 date = 2014-03-05
 
 [taxonomies]
-categories = []
 tags = ["Programming", "Haskell"]
+categories = ["Posts"]
 +++
 
 So I had some issues installing threadscope earlier.

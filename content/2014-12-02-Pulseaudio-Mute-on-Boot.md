@@ -3,8 +3,8 @@ title = "Pulseaudio Mute on Boot"
 date = 2014-12-02
 
 [taxonomies]
-categories = []
 tags = ["Linux", "Pulseaudio"]
+categories = ["Posts"]
 +++
 
 This might work for you or fail to. Doesn't hurt to try.

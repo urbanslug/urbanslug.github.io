@@ -3,8 +3,8 @@ title = "Packaging Python Projects"
 date = 2016-02-14
 
 [taxonomies]
-categories = []
 tags = ["Python", "packaging"]
+categories = ["Posts"]
 +++
 
 A while ago I had quite a problem figuring out how to package a python project.

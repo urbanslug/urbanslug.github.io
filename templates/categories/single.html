@@ -1,3 +1,12 @@
 {% extends "zola-pickles/templates/index.html" %}
 
-{% block title %}{{ config.title }} - Articles in the {{ term.name }} category{% endblock %}
+{% block title -%}
+<title>{{ config.title }} -  Articles in the {{ term.name }} category </title>
+{%- endblock title %}
+
+
+{% block taxonomies_header %}
+<div id="taxonomy-header">
+  <h3>Articles in the <strong style="text-decoration: underline;"> {{ term.name }}</strong> category</h3>
+</div>
+{% endblock %}

@@ -3,8 +3,8 @@ title = "Notes on IdeSession"
 date = 2015-04-27
 
 [taxonomies]
-categories = []
 tags = ["Haskell", "GHC"]
+categories = ["Posts"]
 +++
 
 These are literally notes I wrote down while reading on ide-backend and I chose to turn into a blog post.

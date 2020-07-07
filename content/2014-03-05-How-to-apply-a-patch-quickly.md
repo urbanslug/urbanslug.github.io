@@ -3,8 +3,8 @@ title =  "How to Apply a Patch"
 date = 2014-03-05
 
 [taxonomies]
-categories = []
 tags = ["Programming", "General"]
+categories = ["Posts"]
 +++
 
 So you really should read more on this but of you are in a hurry.

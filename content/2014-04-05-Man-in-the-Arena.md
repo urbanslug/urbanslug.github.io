@@ -3,8 +3,8 @@ title = "The Man in the Arena"
 date = 2014-04-05
 
 [taxonomies]
-categories = []
 tags = ["Inspiration"]
+categories = ["Posts"]
 +++
 
 I was on you tube when I watched [Brené Brown: Why Your Critics Aren't The Ones Who Count]. You should watch it.

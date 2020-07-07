@@ -3,8 +3,8 @@ title = "Pipeline as Code—Overview"
 date =  2017-10-13
 
 [taxonomies]
-categories = []
 tags = ["Devops", "CI", "CD"]
+categories = ["Posts"]
 +++
 
 Pipeline in this context refers to the collection of steps software goes through

@@ -4,7 +4,7 @@ date = 2019-08-20
 
 [taxonomies]
 tags = ["GSoC", "Google Summer of Code", "Variation Graphs", "Bioinformatics", "Graphite"]
-categories = []
+categories = ["Posts"]
 +++
 
 The Google Summer of Code for 2019 is coming to a close. I've been working on

@@ -3,8 +3,8 @@ title = "Solar Power in Africa"
 date = 2014-03-18
 
 [taxonomies]
-categories = []
 tags = ["Energy", "Africa"]
+categories = ["Posts"]
 +++
 
 I have an opinion on a topic (renewable energy) I hardly understand but I wish the world would get right, who doesn't?

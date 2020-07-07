@@ -3,8 +3,8 @@ title = "dm-crypt, luks, systemd-boot and UEFI on Archlinux"
 date =  2016-09-11
 
 [taxonomies]
-categories = []
 tags = ["ArchLinux", "SystemdBoot", "EFI", "dm-crypt"]
+categories = ["Posts"]
 +++
 
 Here I provide a little help for setting up an archlinux system with full disk

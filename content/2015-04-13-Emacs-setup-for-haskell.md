@@ -3,8 +3,8 @@ title = "Emacs Setup for Haskell"
 date = 2015-04-13
 
 [taxonomies]
-categories = []
 tags = ["Emacs", "Haskell"]
+categories = ["Posts"]
 +++
 
 This post assumes that you have a little experience with emacs and maybe some experience writing haskell.  

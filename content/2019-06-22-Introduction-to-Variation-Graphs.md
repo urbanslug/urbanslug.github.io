@@ -4,7 +4,7 @@ date = 2019-06-22
 
 [taxonomies]
 tags = ["Biology", "Variation Graphs", "Graphs", "Bioinformatics", "Genetics", "Graphite"]
-categories = []
+categories = ["Posts"]
 +++
 
 I expect the audience of this post to be both programmers and biologists so I'll

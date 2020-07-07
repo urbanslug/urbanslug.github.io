@@ -3,8 +3,8 @@ title = "Jusifying SHA256 in Graphite"
 date = 2019-07-21
 
 [taxonomies]
-categories = []
 tags = ["Probability", "Cryptography", "Variation", "Bioinformatics", "Graphite"]
+categories = ["Posts"]
 +++
 
 [Graphite's] underlying graph implementation is an adjacency hash table, a

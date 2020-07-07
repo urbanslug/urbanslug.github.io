@@ -3,8 +3,8 @@ title = "mail @ urbanslug"
 date = 2014-03-26
 
 [taxonomies]
-categories = []
 tags = ["Email"]
+categories = ["Posts"]
 +++
 
 

@@ -3,8 +3,8 @@ title = "Imports and Exports as Documentation"
 date = 2015-08-22
 
 [taxonomies]
-categories = []
 tags = ["Programming", "Haskell"]
+categories = ["Posts"]
 +++
 
 Lately I've been reading huge haskell code bases quite a lot.
