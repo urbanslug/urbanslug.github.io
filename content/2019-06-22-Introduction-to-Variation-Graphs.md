@@ -13,7 +13,7 @@ Feel free to skip a sentence, paragraph or even section if you're familiar with 
 
 <!-- more -->
 
-# Genome sequencing
+## Genome sequencing
 A **[genome]** is the entire genetic code of an organism. While computational data
 is  represented in binary form, ones, and zeros, biochemical data is represented
 by nitrogenous [bases] that seem to stick out of a [DNA] or [RNA] molecule/strand
