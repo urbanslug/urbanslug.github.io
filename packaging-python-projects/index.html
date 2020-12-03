@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="referrer" content="no-referrer">
+
+        <!-- Enable responsiveness on mobile devices-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+        <title>Packaging Python Projects | Mostly Programming</title>
+<meta property="og:title" content="Packaging Python Projects | Mostly Programming" />
+<meta name="twitter:title" content="Packaging Python Projects | Mostly Programming" />
+
+        
+
+        <meta property="og:site_name" content="Mostly Programming" />
+        <meta property="og:url" content="https:&#x2F;&#x2F;blog.njagi.me" />
+
+        
+
+
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;base.css" />
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;style.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;fontawesome.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;brands.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;solid.css" rel="stylesheet">
+
+        <link rel='icon' type='image/x-icon' href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;favicon.ico" />
+
+        
+
+        
+
+    </head>
+    <body>
+        <a href="#main" class="skip-link p-screen-reader-text">Skip to content</a>
+        
+
+        
+        <div id="taxonomy-header"></div>
+        
+
+        <main id="main" class="l-main">
+            
+<article class="p-article">
+  <header>
+    <a id="home-link" href="https:&#x2F;&#x2F;blog.njagi.me"><i class="fas fa-home"></i> Mostly Programming</a>
+    <h1 id="page-title">Packaging Python Projects</h1>
+        <div>
+            <div class="c-time">
+
+              <time datetime="2016-02-14">
+                Feb 14, 2016
+              </time>
+              
+               - (2 min read)
+            </div>
+        </div>
+    </header>
+    
+    <section id="js-article" class="p-article__body">
+        
+    <p>A while ago I had quite a problem figuring out how to package a python project.
+This is because the python community has no set standard on how to
+package python projects.</p>
+<span id="continue-reading"></span>
+<p>So I decided to fix this for those who shall come after me
+and wish to make something quick in python.
+As an example project I came up with <a href="https://github.com/urbanslug/Arithmetic">Arithmetic</a>
+and had to come up with <a href="https://github.com/urbanslug/WaterInfrastructure">WaterInfrastructure</a>.</p>
+<p>It is something close to a python project quickstart.<br />
+Incidentally, it also happens to be an example of
+<strong>functional programming in python</strong>.</p>
+<p>The point is to show you how to structure:</p>
+<ul>
+<li>your tests (which testing framework might be good)</li>
+<li>code</li>
+<li>package it for distribution via a tool like pip or pypy and so forth</li>
+<li>(all these in functional style)</li>
+</ul>
+<blockquote>
+<p><em>I use Python 3.</em></p>
+</blockquote>
+<h3 id="arithmetic">Arithmetic<a class="zola-anchor" href="#arithmetic" aria-label="Anchor link for: arithmetic"><i class="fas fa-link"></i></a> 
+</h3>
+<p>The directory structure for this is as follows:</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#1f1f1f;">.
+├── README.md
+├── arithmetic
+│   ├── __init__.py
+│   ├── __main__.py
+│   ├── division
+│   │   ├── __init__.py
+│   │   ├── __main__.py
+│   │   └── divide.py
+│   ├── multiplication
+│   │   ├── __init__.py
+│   │   ├── __main__.py
+│   │   └── multiply.py
+│   └── tests
+│       ├── __init__.py
+│       ├── __main__.py
+│       ├── division
+│       │   └── test_divide.py
+│       └── multiplication
+│           └── test_multiply.py
+└── setup.py
+</span></code></pre><h3 id="waterinfrastructure">WaterInfrastructure<a class="zola-anchor" href="#waterinfrastructure" aria-label="Anchor link for: waterinfrastructure"><i class="fas fa-link"></i></a> 
+</h3>
+<p><a href="https://github.com/urbanslug/WaterInfrastructure">WaterInfrastructure</a> is the other project I wrote following the above guidelines.
+This was as an interview question (this is a form of attribution :D).</p>
+<p><em>Question: I have a problem, do python projects have to have .pyc files in
+the same directory as the source file?</em></p>
+<p>There really isn't much to say here you can learn more by browsing through
+the code.</p>
+
+
+    </section>
+    <footer>
+      <hr>
+      <div>
+        
+        <div class="post-tags">
+          <p>Tags:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;python&#x2F;">Python, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;packaging&#x2F;">packaging, </a>
+            
+          </p>
+        </div>
+        
+
+        
+        <div class="post-tags">
+          <p>Categories:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;categories&#x2F;posts&#x2F;">Posts</a>
+            
+          </p>
+        </div>
+        
+      </div>
+        <nav class="c-pagination p-pagination">
+            <div class="c-pagination__ctrl">
+                <div class="c-pagination__newer">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;apple-deprecates-the-use-of-openssl&#x2F;">Apple Deprecates the Use of OpenSSL</a>
+                </div>
+                <div class="c-pagination__older">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;emacs-cheatsheet&#x2F;">Emacs Cheatsheet</a>
+                </div>
+            </div>
+        </nav>
+    </footer>
+</article>
+        </main>
+
+        <footer class="l-footer">
+          <div id="socials">
+            <span class="social-item"><i class="fab fa-github"></i><a target="_blank" href="https://github.com/urbanslug">urbanslug</a></span>
+            <span class="social-item"><i class="fab fa-twitter"></i><a target="_blank" href="https://twitter.com/urbanslug">urbanslug</a></span>
+          </div>
+          <p class="p-copyright">
+              
+              
+    All work is under the terms of the <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License, Version 1.3</a>
+
+          </p>
+      </footer>
+
+      
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;css&#x2F;katex.min.css">
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;katex.min.js"></script>
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;mathtex-script-type.min.js"></script>
+    </body>
+</html>

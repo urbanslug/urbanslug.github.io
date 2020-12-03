@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="referrer" content="no-referrer">
+
+        <!-- Enable responsiveness on mobile devices-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+        <title>Scope in inheritance and composition in C++ | Mostly Programming</title>
+<meta property="og:title" content="Scope in inheritance and composition in C++ | Mostly Programming" />
+<meta name="twitter:title" content="Scope in inheritance and composition in C++ | Mostly Programming" />
+
+        
+
+        <meta property="og:site_name" content="Mostly Programming" />
+        <meta property="og:url" content="https:&#x2F;&#x2F;blog.njagi.me" />
+
+        
+
+
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;base.css" />
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;style.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;fontawesome.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;brands.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;solid.css" rel="stylesheet">
+
+        <link rel='icon' type='image/x-icon' href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;favicon.ico" />
+
+        
+
+        
+
+    </head>
+    <body>
+        <a href="#main" class="skip-link p-screen-reader-text">Skip to content</a>
+        
+
+        
+        <div id="taxonomy-header"></div>
+        
+
+        <main id="main" class="l-main">
+            
+<article class="p-article">
+  <header>
+    <a id="home-link" href="https:&#x2F;&#x2F;blog.njagi.me"><i class="fas fa-home"></i> Mostly Programming</a>
+    <h1 id="page-title">Scope in inheritance and composition in C++</h1>
+        <div>
+            <div class="c-time">
+
+              <time datetime="2014-12-08">
+                Dec 08, 2014
+              </time>
+              
+               - (2 min read)
+            </div>
+        </div>
+    </header>
+    
+    <section id="js-article" class="p-article__body">
+        
+    <p>I hope you read my previous post before looking at this one if you don't know much about OOP in C++. The previous post explains various things like naming of stuff in C++ which is different from naming conventions in other languages.</p>
+<span id="continue-reading"></span>
+<p>This one is about explaining scope in C++ when we have inheritance and non-default constructors as well as compositions.</p>
+<p>The piont of this post is to establish:</p>
+<ol>
+<li>What order are constructors called in case we create an object of a derived class.</li>
+<li>What order are destructors called in case we destroy an object of a derived class.</li>
+<li>In the case of compositions (objects as data members) which constructors are called first. The one of the composing class or the object?</li>
+</ol>
+<p>Anyway let's get to it.</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#72ab00;">#include </span><span style="color:#d07711;">&lt;iostream&gt;
+
+</span><span style="color:#72ab00;">using namespace</span><span style="color:#1f1f1f;"> std;
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">parent </span><span style="color:#1f1f1f;">{
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">parent</span><span style="color:#1f1f1f;">() {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Parent object created.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+  </span><span style="color:#c23f31;">~parent</span><span style="color:#1f1f1f;">() {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Parent object destoyed.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+};
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">child</span><span style="color:#1f1f1f;">: </span><span style="color:#668f14;">public </span><span style="font-style:italic;color:#b06936;">parent </span><span style="color:#1f1f1f;">{
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">child</span><span style="color:#1f1f1f;">() {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Child object created.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+  </span><span style="color:#c23f31;">~child</span><span style="color:#1f1f1f;">() {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Child object destoyed.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+};
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">composition </span><span style="color:#1f1f1f;">{
+child</span><span style="color:#72ab00;">*</span><span style="color:#1f1f1f;"> childObj;
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">composition</span><span style="color:#1f1f1f;">() {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Composing object created&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+    childObj </span><span style="color:#72ab00;">= new</span><span style="color:#1f1f1f;"> child;
+  }
+
+  </span><span style="color:#c23f31;">~composition</span><span style="color:#1f1f1f;">() {
+    </span><span style="color:#72ab00;">delete</span><span style="color:#1f1f1f;"> childObj;
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Composed oject destroyed.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+};
+
+</span><span style="color:#668f14;">int </span><span style="color:#c23f31;">main </span><span style="color:#1f1f1f;">() {
+  composition compObject;
+  </span><span style="color:#72ab00;">return </span><span style="color:#b3933a;">0</span><span style="color:#1f1f1f;">;
+}
+</span></code></pre>
+<p>Output:</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#1f1f1f;">Composing object created
+Parent object created.
+Child object created.
+Child object destoyed.
+Parent object destoyed.
+Composed oject destroyed.
+</span></code></pre>
+<p>So what do we see here:</p>
+<ol>
+<li>The composed object is created before the objects in it.</li>
+<li>The parent class is created before the child class.</li>
+<li>They are then destroyed in reverse order of their creation. Child then parent then composing.</li>
+</ol>
+<p>It's really that simple.</p>
+<p>Hail Stallman and may the FOSS be with you.</p>
+
+
+    </section>
+    <footer>
+      <hr>
+      <div>
+        
+        <div class="post-tags">
+          <p>Tags:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;programming&#x2F;">Programming, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;oop&#x2F;">OOP, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;c&#x2F;">C++, </a>
+            
+          </p>
+        </div>
+        
+
+        
+        <div class="post-tags">
+          <p>Categories:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;categories&#x2F;posts&#x2F;">Posts</a>
+            
+          </p>
+        </div>
+        
+      </div>
+        <nav class="c-pagination p-pagination">
+            <div class="c-pagination__ctrl">
+                <div class="c-pagination__newer">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;object-oriented-programming-in-c&#x2F;">Object Oriented Programming in C++</a>
+                </div>
+                <div class="c-pagination__older">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;pulseaudio-mute-on-boot&#x2F;">Pulseaudio Mute on Boot</a>
+                </div>
+            </div>
+        </nav>
+    </footer>
+</article>
+        </main>
+
+        <footer class="l-footer">
+          <div id="socials">
+            <span class="social-item"><i class="fab fa-github"></i><a target="_blank" href="https://github.com/urbanslug">urbanslug</a></span>
+            <span class="social-item"><i class="fab fa-twitter"></i><a target="_blank" href="https://twitter.com/urbanslug">urbanslug</a></span>
+          </div>
+          <p class="p-copyright">
+              
+              
+    All work is under the terms of the <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License, Version 1.3</a>
+
+          </p>
+      </footer>
+
+      
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;css&#x2F;katex.min.css">
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;katex.min.js"></script>
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;mathtex-script-type.min.js"></script>
+    </body>
+</html>

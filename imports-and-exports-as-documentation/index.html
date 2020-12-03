@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="referrer" content="no-referrer">
+
+        <!-- Enable responsiveness on mobile devices-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+        <title>Imports and Exports as Documentation | Mostly Programming</title>
+<meta property="og:title" content="Imports and Exports as Documentation | Mostly Programming" />
+<meta name="twitter:title" content="Imports and Exports as Documentation | Mostly Programming" />
+
+        
+
+        <meta property="og:site_name" content="Mostly Programming" />
+        <meta property="og:url" content="https:&#x2F;&#x2F;blog.njagi.me" />
+
+        
+
+
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;base.css" />
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;style.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;fontawesome.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;brands.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;solid.css" rel="stylesheet">
+
+        <link rel='icon' type='image/x-icon' href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;favicon.ico" />
+
+        
+
+        
+
+    </head>
+    <body>
+        <a href="#main" class="skip-link p-screen-reader-text">Skip to content</a>
+        
+
+        
+        <div id="taxonomy-header"></div>
+        
+
+        <main id="main" class="l-main">
+            
+<article class="p-article">
+  <header>
+    <a id="home-link" href="https:&#x2F;&#x2F;blog.njagi.me"><i class="fas fa-home"></i> Mostly Programming</a>
+    <h1 id="page-title">Imports and Exports as Documentation</h1>
+        <div>
+            <div class="c-time">
+
+              <time datetime="2015-08-22">
+                Aug 22, 2015
+              </time>
+              
+               - (3 min read)
+            </div>
+        </div>
+    </header>
+    
+    <section id="js-article" class="p-article__body">
+        
+    <p>Lately I've been reading huge haskell code bases quite a lot.
+One thing that I have noted to be helpful when documentated
+has been the imports section as well as the code having a list of the code it exports.</p>
+<span id="continue-reading"></span>
+<p>I don't know whether this is just a non-experienced programmer issue or it cuts across the board.</p>
+<p>Documenting imports can happen:</p>
+<ul>
+<li>
+<p>explicitly through:</p>
+<ul>
+<li>comments</li>
+</ul>
+</li>
+<li>
+<p>implicity through:</p>
+<ul>
+<li>uniquely qualified imports.</li>
+</ul>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#1f1f1f;">    </span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">A </span><span style="color:#72ab00;">qualified as </span><span style="color:#a2a001;">X
+</span><span style="color:#1f1f1f;">    </span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">B </span><span style="color:#72ab00;">qualified as </span><span style="color:#a2a001;">Y
+</span></code></pre>
+<p>over</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#1f1f1f;">    </span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">A </span><span style="color:#72ab00;">qualified as </span><span style="color:#a2a001;">X
+</span><span style="color:#1f1f1f;">    </span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">B </span><span style="color:#72ab00;">qualified as </span><span style="color:#a2a001;">X
+</span></code></pre>
+<ul>
+<li>importing of specific instances (i.e using brackets to specify what one wants to import)</li>
+</ul>
+</li>
+</ul>
+<p>Basically anything that saves the programmer effort or time in:</p>
+<ul>
+<li>Understanding what you're importing</li>
+<li>Why you're importing it</li>
+<li>See the usage of a function and quickly know where it's from</li>
+</ul>
+<p>I can't quantify or explain exactly how this helps me understand the code but it really does.
+Especially when I can't hoogle a function name
+(the internet connections aren't too fast in these parts).
+It saves me the time of have to go through several modules trying to figure out where this import is from.</p>
+<p>Most of time we are in just too much of a hurry to do this I understand.
+I'm a victim of some terrible coding practices but I think it's a good habit to adopt.</p>
+<p>Well, the user can use tools like the repl to query where these imports are from
+but again when you can save the user time and effort of querying for meta information please do so.
+I know it's not possible to do it all the time and everywhere but please do it when and where you can.</p>
+<p>Let me illustrate this in some example code:</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#7f8989;">{-|
+Module      : Devel.Build
+Description : Attempts to compile the WAI application.
+Copyright   : (c)
+License     : GPL-3
+Maintainer  : njagi@urbanslug.com
+Stability   : experimental
+Portability : POSIX
+
+compile compiles the app to give:
+Either a list of source errors or an ide-backend session.
+-}
+
+</span><span style="color:#1f1f1f;">{-# </span><span style="color:#72ab00;">LANGUAGE</span><span style="color:#1f1f1f;"> PackageImports, OverloadedStrings #-}
+
+</span><span style="color:#72ab00;">module </span><span style="color:#a2a001;">Devel.Compile </span><span style="color:#1f1f1f;">(</span><span style="color:#c23f31;">compile</span><span style="color:#1f1f1f;">) </span><span style="color:#72ab00;">where
+
+</span><span style="color:#7f8989;">-- Almost everything is dependent on ide-backend.
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">IdeSession
+
+</span><span style="color:#7f8989;">-- From Cabal-ide-backend
+-- for parsing the cabal file and extracting lang extensions used.
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">Distribution.PackageDescription
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">Distribution.PackageDescription.Parse
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">Distribution.PackageDescription.Configuration
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">Language.Haskell.Extension
+
+</span><span style="color:#7f8989;">-- Used internally for showing errors.
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">Data.Text </span><span style="color:#1f1f1f;">(</span><span style="color:#c23f31;">unpack</span><span style="color:#1f1f1f;">)
+
+</span><span style="color:#7f8989;">-- Utility functions
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">Data.Monoid </span><span style="color:#1f1f1f;">(</span><span style="color:#c23f31;">(&lt;&gt;)</span><span style="color:#1f1f1f;">)
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">System.Directory </span><span style="color:#1f1f1f;">(</span><span style="color:#c23f31;">createDirectoryIfMissing</span><span style="color:#1f1f1f;">, </span><span style="color:#c23f31;">getCurrentDirectory</span><span style="color:#1f1f1f;">)
+
+</span><span style="color:#7f8989;">-- Local imports
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">Devel.Paths
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">Devel.Types
+</span></code></pre>
+<p>Compare with this which I wrote in a hurry.</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#7f8989;">{-|
+Module      : Devel.Paths
+Description : For filepath related matters.
+Copyright   : (c)
+License     : GPL-3
+Maintainer  : njagi@urbanslug.com
+Stability   : experimental
+Portability : POSIX
+
+Uses the GHC package to parse .hi files.
+Will hopefully be moved upstream to ide-backend.
+-}
+
+</span><span style="color:#1f1f1f;">{-# </span><span style="color:#72ab00;">LANGUAGE</span><span style="color:#1f1f1f;"> OverloadedStrings #-}
+
+</span><span style="color:#72ab00;">module </span><span style="color:#a2a001;">Devel.Paths </span><span style="color:#72ab00;">where
+
+import </span><span style="color:#a2a001;">System.Directory </span><span style="color:#1f1f1f;">(</span><span style="color:#c23f31;">getCurrentDirectory</span><span style="color:#1f1f1f;">, </span><span style="color:#c23f31;">doesDirectoryExist</span><span style="color:#1f1f1f;">, </span><span style="color:#c23f31;">getDirectoryContents</span><span style="color:#1f1f1f;">)
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">Control.Monad </span><span style="color:#1f1f1f;">(</span><span style="color:#c23f31;">forM</span><span style="color:#1f1f1f;">)
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">Control.Concurrent </span><span style="color:#1f1f1f;">(</span><span style="color:#c23f31;">forkIO</span><span style="color:#1f1f1f;">)
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">System.FilePath.Glob
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">System.FilePath </span><span style="color:#1f1f1f;">(</span><span style="color:#c23f31;">(&lt;/&gt;)</span><span style="color:#1f1f1f;">)
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">Data.List
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">IdeSession
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">Devel.Modules
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">System.FilePath.Posix </span><span style="color:#1f1f1f;">(</span><span style="color:#c23f31;">replaceExtension</span><span style="color:#1f1f1f;">, </span><span style="color:#c23f31;">dropExtension</span><span style="color:#1f1f1f;">, </span><span style="color:#c23f31;">takeExtensions</span><span style="color:#1f1f1f;">)
+</span><span style="color:#72ab00;">import qualified </span><span style="color:#a2a001;">Data.ByteString.Char</span><span style="color:#1f1f1f;">8 </span><span style="color:#72ab00;">as </span><span style="color:#a2a001;">C</span><span style="color:#1f1f1f;">8
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">Control.Monad.IO.Class
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">System.FilePath </span><span style="color:#1f1f1f;">(</span><span style="color:#c23f31;">pathSeparator</span><span style="color:#1f1f1f;">)
+</span><span style="color:#72ab00;">import </span><span style="color:#a2a001;">System.Directory </span><span style="color:#1f1f1f;">(</span><span style="color:#c23f31;">removeFile</span><span style="color:#1f1f1f;">)
+</span></code></pre>
+<p>As you can see one can learn quite a bit just from looking at the imports and module documentation alone.</p>
+<p>The issue is that it sometimes takes a while for one to clean up their code like this
+so it's okay if your imports aren't legible before refactoring.</p>
+<p>Another thing, I don't know if it's just an emacs thing but I
+can just to my imports and jump between sections of imports with f12.
+This is both advantageous to both the one writing the code and the one reading it.<br />
+The point of all of this is that well structured and well documented imports and exports are
+a win for both the programmer and the one reading the code.</p>
+
+
+    </section>
+    <footer>
+      <hr>
+      <div>
+        
+        <div class="post-tags">
+          <p>Tags:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;programming&#x2F;">Programming, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;haskell&#x2F;">Haskell, </a>
+            
+          </p>
+        </div>
+        
+
+        
+        <div class="post-tags">
+          <p>Categories:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;categories&#x2F;posts&#x2F;">Posts</a>
+            
+          </p>
+        </div>
+        
+      </div>
+        <nav class="c-pagination p-pagination">
+            <div class="c-pagination__ctrl">
+                <div class="c-pagination__newer">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;emacs-cheatsheet&#x2F;">Emacs Cheatsheet</a>
+                </div>
+                <div class="c-pagination__older">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;wai-devel-final-submission&#x2F;">wai-devel final submission</a>
+                </div>
+            </div>
+        </nav>
+    </footer>
+</article>
+        </main>
+
+        <footer class="l-footer">
+          <div id="socials">
+            <span class="social-item"><i class="fab fa-github"></i><a target="_blank" href="https://github.com/urbanslug">urbanslug</a></span>
+            <span class="social-item"><i class="fab fa-twitter"></i><a target="_blank" href="https://twitter.com/urbanslug">urbanslug</a></span>
+          </div>
+          <p class="p-copyright">
+              
+              
+    All work is under the terms of the <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License, Version 1.3</a>
+
+          </p>
+      </footer>
+
+      
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;css&#x2F;katex.min.css">
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;katex.min.js"></script>
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;mathtex-script-type.min.js"></script>
+    </body>
+</html>

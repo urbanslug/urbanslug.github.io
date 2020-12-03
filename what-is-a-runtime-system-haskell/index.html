@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="referrer" content="no-referrer">
+
+        <!-- Enable responsiveness on mobile devices-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+        <title>A Runtime System | Mostly Programming</title>
+<meta property="og:title" content="A Runtime System | Mostly Programming" />
+<meta name="twitter:title" content="A Runtime System | Mostly Programming" />
+
+        
+
+        <meta property="og:site_name" content="Mostly Programming" />
+        <meta property="og:url" content="https:&#x2F;&#x2F;blog.njagi.me" />
+
+        
+
+
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;base.css" />
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;style.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;fontawesome.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;brands.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;solid.css" rel="stylesheet">
+
+        <link rel='icon' type='image/x-icon' href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;favicon.ico" />
+
+        
+
+        
+
+    </head>
+    <body>
+        <a href="#main" class="skip-link p-screen-reader-text">Skip to content</a>
+        
+
+        
+        <div id="taxonomy-header"></div>
+        
+
+        <main id="main" class="l-main">
+            
+<article class="p-article">
+  <header>
+    <a id="home-link" href="https:&#x2F;&#x2F;blog.njagi.me"><i class="fas fa-home"></i> Mostly Programming</a>
+    <h1 id="page-title">A Runtime System</h1>
+        <div>
+            <div class="c-time">
+
+              <time datetime="2015-05-22">
+                May 22, 2015
+              </time>
+              
+               - (3 min read)
+            </div>
+        </div>
+    </header>
+    
+    <section id="js-article" class="p-article__body">
+        
+    <p>This post is aimed at total beginners. Especially those who have no idea what a runtime system is and is a gross oversimplification. :) Let's go. Later I will write something about the haskell runtime system.</p>
+<span id="continue-reading"></span>
+<p>This post was inspired by <a href="http://ezyang.com/jfp-ghc-rts-draft.pdf">The GHC Runtime System by Edward Z. Yang (2013)</a> and <a href="https://users-cs.au.dk/hosc/local/LaSC-3-4-pp343-380.pdf">A Runtime System by Andrew W. Appel (1989)</a>.
+I also tried reading: <a href="http://research.microsoft.com/en-us/um/people/simonpj/papers/slpj-book-1987/">The Implementation of Functional Programming Languages by Simon Peyton Jones, published by Prentice Hall, 1987.</a> and <a href="http://research.microsoft.com/en-us/um/people/simonpj/Papers/pj-lester-book/">Implementing functional languages: a tutorial by Simon Peyton Jones and David Lester. Published by Prentice Hall, 1992.</a> but they're really big and quite dated. You may also read <a href="http://en.wikipedia.org/wiki/Runtime_system">wikipedia on runtime systems</a>.</p>
+<p>So what is a runtime system? It is a program that is invoked by the compiler to wrap your compiled program/code and gives it bindings to the &quot;API&quot; provided by the environment(<em>operating system</em>) that the program is running in.
+So the runtime system can't run on it's own. It only runs when the program, for example a haskell program, is running and as you would expect the runtime system would vary between operating systems because the environments are different.</p>
+<p>It provides primitive langauge features unlike a standard library which is typically implemented in the language itself.</p>
+<p>We count on the runtime system to provide the following services among others:</p>
+<ul>
+<li>Garbage collection.</li>
+<li>Streaming input and output.</li>
+<li>Structured input and output.</li>
+<li>Process suspension</li>
+<li>Handling interrupts and asynchronous events.</li>
+<li>Operating system calls.</li>
+<li>Arithmetic interrupts.</li>
+<li>Execution profiling.</li>
+<li>Assembly language implementation of language primitives.</li>
+<li>Debugging.</li>
+<li>Fun with continuation.</li>
+<li>Foreign language procedure calls.</li>
+</ul>
+<h3 id="haskell-runtime-system">Haskell runtime system.<a class="zola-anchor" href="#haskell-runtime-system" aria-label="Anchor link for: haskell-runtime-system"><i class="fas fa-link"></i></a> 
+</h3>
+<p>Haskell features that complicate the design of the runtime system:</p>
+<ul>
+<li>Lazy evaluation. <em>No clear order of execution</em></li>
+<li>Ubiquitous concurrency.</li>
+</ul>
+<p>However, <strong>emphasis on pure computation</strong> simplifies the design of the garbage collector and Software Transactional Memory.</p>
+<h3 id="ghc-and-the-haskell-runtime-system">GHC and the haskell runtime system.<a class="zola-anchor" href="#ghc-and-the-haskell-runtime-system" aria-label="Anchor link for: ghc-and-the-haskell-runtime-system"><i class="fas fa-link"></i></a> 
+</h3>
+<p>GHC is broken down into three parts.</p>
+<ul>
+<li>The compiler</li>
+<li>The runtime system</li>
+<li>The boot/base libraries.</li>
+</ul>
+<p>As you can see the runtime system is developed as part of GHC but not part of the compiler itself.</p>
+<h3 id="conclusion">Conclusion<a class="zola-anchor" href="#conclusion" aria-label="Anchor link for: conclusion"><i class="fas fa-link"></i></a> 
+</h3>
+<p>I can't keep this on without turning these into notes I wrote down when reading a paper. So I'll write a different and more specific post later.</p>
+<h3 id="references">References:<a class="zola-anchor" href="#references" aria-label="Anchor link for: references"><i class="fas fa-link"></i></a> 
+</h3>
+<ul>
+<li><a href="http://ezyang.com/jfp-ghc-rts-draft.pdf">The GHC Runtime System by Edward Z. Yang (2013)</a></li>
+<li><a href="https://users-cs.au.dk/hosc/local/LaSC-3-4-pp343-380.pdf">A Runtime System by Andrew W. Appel (1989)</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Runtime_system">wikipedia on runtime systems</a></li>
+</ul>
+
+
+    </section>
+    <footer>
+      <hr>
+      <div>
+        
+        <div class="post-tags">
+          <p>Tags:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;haskell&#x2F;">Haskell, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;rts&#x2F;">RTS, </a>
+            
+          </p>
+        </div>
+        
+
+        
+      </div>
+        <nav class="c-pagination p-pagination">
+            <div class="c-pagination__ctrl">
+                <div class="c-pagination__newer">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;yesod-devel&#x2F;">yesod-devel</a>
+                </div>
+                <div class="c-pagination__older">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;notes-on-idesession&#x2F;">Notes on IdeSession</a>
+                </div>
+            </div>
+        </nav>
+    </footer>
+</article>
+        </main>
+
+        <footer class="l-footer">
+          <div id="socials">
+            <span class="social-item"><i class="fab fa-github"></i><a target="_blank" href="https://github.com/urbanslug">urbanslug</a></span>
+            <span class="social-item"><i class="fab fa-twitter"></i><a target="_blank" href="https://twitter.com/urbanslug">urbanslug</a></span>
+          </div>
+          <p class="p-copyright">
+              
+              
+    All work is under the terms of the <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License, Version 1.3</a>
+
+          </p>
+      </footer>
+
+      
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;css&#x2F;katex.min.css">
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;katex.min.js"></script>
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;mathtex-script-type.min.js"></script>
+    </body>
+</html>

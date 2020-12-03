@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="referrer" content="no-referrer">
+
+        <!-- Enable responsiveness on mobile devices-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+        <title>Progress with wai-devel | Mostly Programming</title>
+<meta property="og:title" content="Progress with wai-devel | Mostly Programming" />
+<meta name="twitter:title" content="Progress with wai-devel | Mostly Programming" />
+
+        
+
+        <meta property="og:site_name" content="Mostly Programming" />
+        <meta property="og:url" content="https:&#x2F;&#x2F;blog.njagi.me" />
+
+        
+
+
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;base.css" />
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;style.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;fontawesome.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;brands.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;solid.css" rel="stylesheet">
+
+        <link rel='icon' type='image/x-icon' href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;favicon.ico" />
+
+        
+
+        
+
+    </head>
+    <body>
+        <a href="#main" class="skip-link p-screen-reader-text">Skip to content</a>
+        
+
+        
+        <div id="taxonomy-header"></div>
+        
+
+        <main id="main" class="l-main">
+            
+<article class="p-article">
+  <header>
+    <a id="home-link" href="https:&#x2F;&#x2F;blog.njagi.me"><i class="fas fa-home"></i> Mostly Programming</a>
+    <h1 id="page-title">Progress with wai-devel</h1>
+        <div>
+            <div class="c-time">
+
+              <time datetime="2015-08-13">
+                Aug 13, 2015
+              </time>
+              
+               - (4 min read)
+            </div>
+        </div>
+    </header>
+    
+    <section id="js-article" class="p-article__body">
+        
+    <p>wai-devel is a  development server for wai compliant haskell web applications.</p>
+<p>Its name changed from yesod-devel (the haskell reddit community suggested this).
+You can find it at: <a href="https://github.com/urbanslug/wai-devel">https://github.com/urbanslug/wai-devel</a></p>
+<span id="continue-reading"></span><h2 id="what-wai-devel-expects-from-your-application">What wai-devel expects from your application<a class="zola-anchor" href="#what-wai-devel-expects-from-your-application" aria-label="Anchor link for: what-wai-devel-expects-from-your-application"><i class="fas fa-link"></i></a> 
+</h2>
+<p>Since wai-devel is very loosely coupled to your application it expects mainly two things from your application:
+a <strong>host:port</strong> pair and a function, <strong>Application.develMain</strong>.</p>
+<p>Due to it's dependence on ide-backend it also expects you to set the environment variable <code>GHC_PACKAGE_PATH</code>.</p>
+<p>Mine for example is: <code>export GHC_PACKAGE_PATH=~/.stack/snapshots/x86_64-linux/lts-2.22/7.8.4/pkgdb:</code></p>
+<p>The host:port pair is expected to be passed in as two environment variables:
+wai_host and wai_port for example:</p>
+<ul>
+<li>export wai_host=127.0.0.1</li>
+<li>export wai_port=3001</li>
+</ul>
+<p>Better yet, the application itself should set the environment variables as in the example code below.</p>
+<p>wai-devel looks for a function Application.develMain
+I have a <a href="https://github.com/urbanslug/yesod">fork of yesod</a>, that builds a yesod binary which
+generates a scaffold with this function implemented.
+I recommend using it to generate the scaffold with which to try out wai-devel with.</p>
+<p>The specifics of how to set the port and host within yesod applications will obviously change.
+The point of this fork is to generate a scaffold that works with wai-devel out of the box.</p>
+<p>Here is a snippet develMain function from my yesod fork.</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#7f8989;">-- | main function for use by yesod devel
+</span><span style="color:#c23f31;">develMain </span><span style="color:#72ab00;">:: </span><span style="color:#668f14;">IO </span><span style="color:#da5d42;">()
+</span><span style="color:#1f1f1f;">develMain </span><span style="color:#72ab00;">=</span><span style="color:#1f1f1f;"> develMainHelper&#39; getApplicationDev
+
+</span><span style="color:#c23f31;">develMainHelper&#39; </span><span style="color:#72ab00;">:: </span><span style="color:#668f14;">IO</span><span style="color:#1f1f1f;"> (</span><span style="color:#668f14;">Settings</span><span style="color:#1f1f1f;">, </span><span style="color:#668f14;">Application</span><span style="color:#1f1f1f;">) </span><span style="color:#72ab00;">-&gt; </span><span style="color:#668f14;">IO </span><span style="color:#da5d42;">()
+</span><span style="color:#1f1f1f;">develMainHelper&#39; getSettingsApp </span><span style="color:#72ab00;">= do</span><span style="color:#1f1f1f;">
+    (settings, app) </span><span style="color:#72ab00;">&lt;-</span><span style="color:#1f1f1f;"> getSettingsApp
+
+    _ </span><span style="color:#72ab00;">&lt;-</span><span style="color:#1f1f1f;"> unsetEnv </span><span style="color:#d07711;">&quot;wai_port&quot; </span><span style="color:#72ab00;">&gt;&gt;</span><span style="color:#1f1f1f;"> setEnv </span><span style="color:#d07711;">&quot;wai_port&quot; &quot;3001&quot;</span><span style="color:#1f1f1f;">
+    _ </span><span style="color:#72ab00;">&lt;-</span><span style="color:#1f1f1f;"> unsetEnv </span><span style="color:#d07711;">&quot;wai_host&quot; </span><span style="color:#72ab00;">&gt;&gt;</span><span style="color:#1f1f1f;"> setEnv </span><span style="color:#d07711;">&quot;wai_host&quot; &quot;127.0.0.1&quot;
+
+    </span><span style="color:#72ab00;">let</span><span style="color:#1f1f1f;"> settings&#39;  </span><span style="color:#72ab00;">=</span><span style="color:#1f1f1f;"> setPort (</span><span style="color:#b3933a;">3001 </span><span style="color:#72ab00;">:: </span><span style="color:#b3933a;">Port</span><span style="color:#1f1f1f;">) settings
+        settings&#39;&#39; </span><span style="color:#72ab00;">=</span><span style="color:#1f1f1f;"> setHost ((read </span><span style="color:#d07711;">&quot;127.0.0.1&quot;</span><span style="color:#1f1f1f;">) </span><span style="color:#72ab00;">:: </span><span style="color:#b3933a;">HostPreference</span><span style="color:#1f1f1f;">) settings</span><span style="color:#72ab00;">\</span><span style="color:#1f1f1f;">&#39;
+
+    sock </span><span style="color:#72ab00;">&lt;-</span><span style="color:#1f1f1f;"> createSocket
+
+    runSettingsSocket settings&#39;&#39; sock app
+
+    </span><span style="color:#72ab00;">where </span><span style="color:#7f8989;">-- | Create the socket that we will use to communicate with
+          -- localhost:3001 here.
+          </span><span style="color:#c23f31;">createSocket </span><span style="color:#72ab00;">:: </span><span style="color:#668f14;">IO Socket
+</span><span style="color:#1f1f1f;">          createSocket </span><span style="color:#72ab00;">= do</span><span style="color:#1f1f1f;">
+
+            sock </span><span style="color:#72ab00;">&lt;-</span><span style="color:#1f1f1f;"> socket </span><span style="color:#b3933a;">AF_INET Stream</span><span style="color:#1f1f1f;"> defaultProtocol
+
+            </span><span style="color:#7f8989;">-- Tell the OS *not* to reserve the socket after your program exits.
+</span><span style="color:#1f1f1f;">            setSocketOption sock </span><span style="color:#b3933a;">ReuseAddr 1
+
+            </span><span style="color:#7f8989;">-- Bind the socket to localhost:3000 and listen.
+            -- I wonder why I can&#39;t specify localhost instead of iNADDR_ANY
+</span><span style="color:#1f1f1f;">            bindSocket sock (</span><span style="color:#b3933a;">SockAddrInet 3001</span><span style="color:#1f1f1f;"> iNADDR_ANY)
+            listen sock </span><span style="color:#b3933a;">2</span><span style="color:#1f1f1f;">
+            return sock
+</span></code></pre>
+<blockquote>
+<p>During socket creation I made sure that the socket option ReuseAddr has been set to 1.<br />
+This way the operating system doesn't hold on to the socket after the program exits.
+This is important for when wai-devel takes note of file changes and the development server is restarted.</p>
+</blockquote>
+<h2 id="ignoring-files-and-directories">Ignoring files and directories<a class="zola-anchor" href="#ignoring-files-and-directories" aria-label="Anchor link for: ignoring-files-and-directories"><i class="fas fa-link"></i></a> 
+</h2>
+<p>wai-devel expects that there will be a single <code>Main.main</code> function.
+In the case of having more than one, for example with yesod, we ignore all but one.
+Specifically, we ignore the file app/DevelMain.hs.
+There is no need for app/devel.hs so it has been removed in my fork.</p>
+<p>Moreover, wai-devel ignores files in your <code>test/</code> directory.<br />
+This is because wai-devel depends on ide-backend which will attempt to build all files in the current working diretory,
+including your test directory. This leads to a world of hurt because the test/ directory also has a <code>Main.main</code> function.</p>
+<p><em>Please report an issue if you would like any file ignored during builds.</em></p>
+<h1 id="moved-to-stack">Moved to stack<a class="zola-anchor" href="#moved-to-stack" aria-label="Anchor link for: moved-to-stack"><i class="fas fa-link"></i></a> 
+</h1>
+<p>Since the Haskell community has moved in this direction, so has wai-devel.<br />
+wai-devel only depends on cabal in that stack and ide-backend depend on Cabal the library.
+Otherwise, the cabal binary is not used and hasn't been tested to work with wai-devel.</p>
+<h2 id="compatible-versions-of-ghc">Compatible versions of GHC<a class="zola-anchor" href="#compatible-versions-of-ghc" aria-label="Anchor link for: compatible-versions-of-ghc"><i class="fas fa-link"></i></a> 
+</h2>
+<p>Currently wai-devel is built and tested against:</p>
+<ul>
+<li>GHC-7.8</li>
+<li>GHC-7.10</li>
+</ul>
+<h2 id="regarding-file-watching">Regarding file watching<a class="zola-anchor" href="#regarding-file-watching" aria-label="Anchor link for: regarding-file-watching"><i class="fas fa-link"></i></a> 
+</h2>
+<p>wai-devel watches for file changes on files with the following extensions:</p>
+<ul>
+<li>hamlet</li>
+<li>shamlet</li>
+<li>julius</li>
+<li>lucius</li>
+<li>hs</li>
+<li>yaml</li>
+</ul>
+<p>When a change takes place wai-devel will recompile and re-run your application
+on localhost:3001 or display an error if any on the browser at localhost:3000</p>
+<p><em>If you would want another extension added to the list of file extensions to watch for please report it as an issue.</em></p>
+<h2 id="command-line-arguments">Command line arguments<a class="zola-anchor" href="#command-line-arguments" aria-label="Anchor link for: command-line-arguments"><i class="fas fa-link"></i></a> 
+</h2>
+<p>Currently wai-devel takes only these two arguments and the two are optional.
+If you feel the need for more arguments please report it as an issue on github.</p>
+<ul>
+<li>
+<p>-r <em>to turn off reverse proxying</em>
+If this is turned on you will access your application at an address that is specific to
+your web application or web framework.</p>
+</li>
+<li>
+<p>--show-iface [hi file] <em>passes this command to ghc</em>
+Same as ghc --show-iface</p>
+</li>
+</ul>
+
+
+    </section>
+    <footer>
+      <hr>
+      <div>
+        
+        <div class="post-tags">
+          <p>Tags:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;programming&#x2F;">Programming, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;haskell&#x2F;">Haskell, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;wai&#x2F;">WAI, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;wai-devel&#x2F;">wai-devel, </a>
+            
+          </p>
+        </div>
+        
+
+        
+      </div>
+        <nav class="c-pagination p-pagination">
+            <div class="c-pagination__ctrl">
+                <div class="c-pagination__newer">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;wai-devel-final-submission&#x2F;">wai-devel final submission</a>
+                </div>
+                <div class="c-pagination__older">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;google-summer-of-code-2015&#x2F;">Google Summer of Code (2015)</a>
+                </div>
+            </div>
+        </nav>
+    </footer>
+</article>
+        </main>
+
+        <footer class="l-footer">
+          <div id="socials">
+            <span class="social-item"><i class="fab fa-github"></i><a target="_blank" href="https://github.com/urbanslug">urbanslug</a></span>
+            <span class="social-item"><i class="fab fa-twitter"></i><a target="_blank" href="https://twitter.com/urbanslug">urbanslug</a></span>
+          </div>
+          <p class="p-copyright">
+              
+              
+    All work is under the terms of the <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License, Version 1.3</a>
+
+          </p>
+      </footer>
+
+      
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;css&#x2F;katex.min.css">
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;katex.min.js"></script>
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;mathtex-script-type.min.js"></script>
+    </body>
+</html>

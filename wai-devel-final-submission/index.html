@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="referrer" content="no-referrer">
+
+        <!-- Enable responsiveness on mobile devices-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+        <title>wai-devel final submission | Mostly Programming</title>
+<meta property="og:title" content="wai-devel final submission | Mostly Programming" />
+<meta name="twitter:title" content="wai-devel final submission | Mostly Programming" />
+
+        
+
+        <meta property="og:site_name" content="Mostly Programming" />
+        <meta property="og:url" content="https:&#x2F;&#x2F;blog.njagi.me" />
+
+        
+
+
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;base.css" />
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;style.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;fontawesome.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;brands.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;solid.css" rel="stylesheet">
+
+        <link rel='icon' type='image/x-icon' href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;favicon.ico" />
+
+        
+
+        
+
+    </head>
+    <body>
+        <a href="#main" class="skip-link p-screen-reader-text">Skip to content</a>
+        
+
+        
+        <div id="taxonomy-header"></div>
+        
+
+        <main id="main" class="l-main">
+            
+<article class="p-article">
+  <header>
+    <a id="home-link" href="https:&#x2F;&#x2F;blog.njagi.me"><i class="fas fa-home"></i> Mostly Programming</a>
+    <h1 id="page-title">wai-devel final submission</h1>
+        <div>
+            <div class="c-time">
+
+              <time datetime="2015-08-21">
+                Aug 21, 2015
+              </time>
+              
+               - (2 min read)
+            </div>
+        </div>
+    </header>
+    
+    <section id="js-article" class="p-article__body">
+        
+    <p>This is the final day of code submissions to Google for Google Summer of Code.
+So it's only fair that I give the community a report on the current state of affairs regarding wai-devel.<br />
+This is more of a very detailed changelog than a blog post about wai-devel.</p>
+<span id="continue-reading"></span><h2 id="what-wai-devel-expects-from-your-application">What wai-devel expects from your application.<a class="zola-anchor" href="#what-wai-devel-expects-from-your-application" aria-label="Anchor link for: what-wai-devel-expects-from-your-application"><i class="fas fa-link"></i></a> 
+</h2>
+<p><strong>NOTHING</strong><br />
+Yes, wai-devel expects nothing from your application.
+However, your application shall receive a port number through the environment variable <code>PORT</code>.</p>
+<p><em>UPDATE:</em>
+Due to it's reliance on ide-backend you also have to set the environment variable <code>GHC_PACKAGE_PATH</code></p>
+<h3 id="what-port-is-used-for">What PORT is used for:<a class="zola-anchor" href="#what-port-is-used-for" aria-label="Anchor link for: what-port-is-used-for"><i class="fas fa-link"></i></a> 
+</h3>
+<p>Your application shall listen for connections on <code>localhost:&lt;PORT&gt;</code>
+wai-devel by default creates a reverse proxy from port number 3000 to your application which is listening in on PORT.<br />
+You can change the port from the default port 3000 by setting the environment variable PORT yourself.</p>
+<p>wai-devel takes PORT and then cycles through various port numbers adding 1 to PORT to find a port that is free, sets that as the destination port and changes the PORT environment variable to that destination port. Therefore we can reverse proxy from PORT to a random port.</p>
+<p>Reverse proxying is important for error reporting, future proofing and other ways of abstracting away the services wai-devel provides to your application.</p>
+<h2 id="more-reliable-dirtiness-checking">More reliable dirtiness checking.<a class="zola-anchor" href="#more-reliable-dirtiness-checking" aria-label="Anchor link for: more-reliable-dirtiness-checking"><i class="fas fa-link"></i></a> 
+</h2>
+<p>wai-devel will use the the module you have chosen to find the files to watch for changes in.
+It watches the files it imports and their Template Haskell dependencies as well as the cabal file.</p>
+<h2 id="compatibility-with-haskell-wai-applications">Compatibility with Haskell wai-applications.<a class="zola-anchor" href="#compatibility-with-haskell-wai-applications" aria-label="Anchor link for: compatibility-with-haskell-wai-applications"><i class="fas fa-link"></i></a> 
+</h2>
+<p>wai-devel works with your usual yesod scaffold from yesod-bin out of the box and should work with other haskell wai apps as long as they use the PORT environment variable.</p>
+<p>You can pass the filepath and function to run via command line arguments <code>--path</code> or <code>-p</code> and function <code>--function</code> or <code>-f</code>.
+When these aren't passed it assumes Application.develMain (borrowed from yesod).</p>
+<h2 id="yet-to-come">Yet to come.<a class="zola-anchor" href="#yet-to-come" aria-label="Anchor link for: yet-to-come"><i class="fas fa-link"></i></a> 
+</h2>
+<p>I will be actively developing wai-devel well after Google Summer of Code is over (that is today).</p>
+<p>The following are coming next:</p>
+<ul>
+<li>Show build progress in the browser.</li>
+<li>Provide a dashboard page with compilation status, garbage collection statistics, and other useful meta-information.</li>
+<li>Port to Windows. (This depends on ide-backend getting ported to Windows.)</li>
+</ul>
+
+
+    </section>
+    <footer>
+      <hr>
+      <div>
+        
+        <div class="post-tags">
+          <p>Tags:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;programming&#x2F;">Programming, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;haskell&#x2F;">Haskell, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;gsoc&#x2F;">GSoC, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;wai&#x2F;">WAI, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;wai-devel&#x2F;">wai-devel, </a>
+            
+          </p>
+        </div>
+        
+
+        
+        <div class="post-tags">
+          <p>Categories:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;categories&#x2F;posts&#x2F;">Posts</a>
+            
+          </p>
+        </div>
+        
+      </div>
+        <nav class="c-pagination p-pagination">
+            <div class="c-pagination__ctrl">
+                <div class="c-pagination__newer">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;imports-and-exports-as-documentation&#x2F;">Imports and Exports as Documentation</a>
+                </div>
+                <div class="c-pagination__older">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;progress-with-wai-devel&#x2F;">Progress with wai-devel</a>
+                </div>
+            </div>
+        </nav>
+    </footer>
+</article>
+        </main>
+
+        <footer class="l-footer">
+          <div id="socials">
+            <span class="social-item"><i class="fab fa-github"></i><a target="_blank" href="https://github.com/urbanslug">urbanslug</a></span>
+            <span class="social-item"><i class="fab fa-twitter"></i><a target="_blank" href="https://twitter.com/urbanslug">urbanslug</a></span>
+          </div>
+          <p class="p-copyright">
+              
+              
+    All work is under the terms of the <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License, Version 1.3</a>
+
+          </p>
+      </footer>
+
+      
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;css&#x2F;katex.min.css">
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;katex.min.js"></script>
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;mathtex-script-type.min.js"></script>
+    </body>
+</html>

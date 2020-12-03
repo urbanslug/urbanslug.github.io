@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="referrer" content="no-referrer">
+
+        <!-- Enable responsiveness on mobile devices-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+        <title>Google Summer of Code (2015) | Mostly Programming</title>
+<meta property="og:title" content="Google Summer of Code (2015) | Mostly Programming" />
+<meta name="twitter:title" content="Google Summer of Code (2015) | Mostly Programming" />
+
+        
+
+        <meta property="og:site_name" content="Mostly Programming" />
+        <meta property="og:url" content="https:&#x2F;&#x2F;blog.njagi.me" />
+
+        
+
+
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;base.css" />
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;style.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;fontawesome.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;brands.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;solid.css" rel="stylesheet">
+
+        <link rel='icon' type='image/x-icon' href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;favicon.ico" />
+
+        
+
+        
+
+    </head>
+    <body>
+        <a href="#main" class="skip-link p-screen-reader-text">Skip to content</a>
+        
+
+        
+        <div id="taxonomy-header"></div>
+        
+
+        <main id="main" class="l-main">
+            
+<article class="p-article">
+  <header>
+    <a id="home-link" href="https:&#x2F;&#x2F;blog.njagi.me"><i class="fas fa-home"></i> Mostly Programming</a>
+    <h1 id="page-title">Google Summer of Code (2015)</h1>
+        <div>
+            <div class="c-time">
+
+              <time datetime="2015-07-19">
+                Jul 19, 2015
+              </time>
+              
+               - (3 min read)
+            </div>
+        </div>
+    </header>
+    
+    <section id="js-article" class="p-article__body">
+        
+    <p>This post is long overdue and I should've started writing on this a while ago but oh well I will write as much in the remaining time and try to make up for lost time.</p>
+<span id="continue-reading"></span>
+<p>So I sent in a proposal for Google Summer of Code aimed at <a href="https://www.haskell.org">haskell.org</a>.
+The aim of the proposal was <strong>To build an improved yesod-devel server</strong>. Let the name not fool you, this server is supposed to work with all <a href="https://www.yesodweb.com/book/web-application-interface">WAI</a> compliant haskell web applications such as yesod, spock, scotty applications among others.
+My mentor has been <a href="https://github.com/snoyberg">Michael Snoyman</a>. I've also been working closely with <a href="https://github.com/mgsloan">Michael Sloan</a> and <a href="https://github.com/ncreep">Daniel Beskin</a>.
+It started on a high note. I was added to the <a href="https://github.com/fpco">FP Complete github organisation</a>. That had me very excited because of the kind of people who are in that organisation plus it's <strong>THE HASKELL</strong> organisation in my opinion. So that's the social aspect. Let's talk programming.</p>
+<h1 id="ide-backend">ide-backend<a class="zola-anchor" href="#ide-backend" aria-label="Anchor link for: ide-backend"><i class="fas fa-link"></i></a> 
+</h1>
+<p>So FP Complete recently released a library that acts as a wrapper around the <a href="https://wiki.haskell.org/GHC/As_a_library">GHC API</a>, that is, <a href="https://hackage.haskell.org/package/ide-backend-0.9.0.2">ide-backend</a> (I wrote about it in an earlier post).
+This library was extracted from the online FP Complete haskell ide. It was therefore still aimed at working  a cleint - server model where the client and server are on different boxes. The client (the package depending on ide-backend) had to explicitly specify the files to be copied from the cleint to the server. This worked in the FP Complete use case but wouldn't work in our use case.</p>
+<p>So we had to make it work in a local environment. This was my first task.</p>
+<p>The aim here was to enable automatic source file (as well as data files and everything else) discovery by ide-backend so that it can submit these files for compilationa by GHC.<br />
+To do this, one has to specify that they want to use ide-backend with a local working directory under <code>configLocalWorkingDir</code> in <a href="http://hackage.haskell.org/package/ide-backend-0.9.0.2/docs/IdeSession.html#v:defaultSessionConfig"><code>defaultSessionConfig</code></a>. <code>configLocalWorkingDir</code> is a value of type <code>Maybe FilePath</code>. It defaults to (Nothing :: Maybe FilePath) and has ide-backend working in a client-server environment. When <code>configLocalWorkingDir</code> is set it uses the given file path as the place it will look for source files, data files and everything in between.</p>
+<p>Functionality for ide-backend to work in a non-server environment was finally merged in <a href="https://github.com/fpco/ide-backend/tree/19561d9ff5f496d6556f38992bc8d08896d54091">this commit onwards on github</a>. It's not yet on the hackage version of ide-backend as of writing this post but it will be pushed soon enough.</p>
+<h1 id="yesod-devel">yesod-devel<a class="zola-anchor" href="#yesod-devel" aria-label="Anchor link for: yesod-devel"><i class="fas fa-link"></i></a> 
+</h1>
+<p>Then came the challenge of yesod-devel. This is the &quot;client&quot; in our case that depends on ide-backend. 
+Quite honestly the fact is that ide-backend is the one doing most of the heavy lifting while yesod-devel coordinates everything.</p>
+<p>The objectives of yesod-devel are:</p>
+<ul>
+<li>Automatic source and data file discovery.</li>
+<li>Load code</li>
+<li>Compile to bytecode</li>
+<li>Run the code</li>
+<li>Read environment variables</li>
+<li>Grab compiler error messages and display them on the browser</li>
+<li>Listening for changes in the current working directory</li>
+<li>Automatic code reloading and recompilation</li>
+<li>Perform reverse proxying for the web application</li>
+</ul>
+
+
+    </section>
+    <footer>
+      <hr>
+      <div>
+        
+        <div class="post-tags">
+          <p>Tags:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;programming-gsoc-yesod-yesod-devel&#x2F;">Programming, GSoC, Yesod, Yesod-Devel, </a>
+            
+          </p>
+        </div>
+        
+
+        
+        <div class="post-tags">
+          <p>Categories:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;categories&#x2F;posts&#x2F;">Posts</a>
+            
+          </p>
+        </div>
+        
+      </div>
+        <nav class="c-pagination p-pagination">
+            <div class="c-pagination__ctrl">
+                <div class="c-pagination__newer">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;progress-with-wai-devel&#x2F;">Progress with wai-devel</a>
+                </div>
+                <div class="c-pagination__older">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;yesod-devel&#x2F;">yesod-devel</a>
+                </div>
+            </div>
+        </nav>
+    </footer>
+</article>
+        </main>
+
+        <footer class="l-footer">
+          <div id="socials">
+            <span class="social-item"><i class="fab fa-github"></i><a target="_blank" href="https://github.com/urbanslug">urbanslug</a></span>
+            <span class="social-item"><i class="fab fa-twitter"></i><a target="_blank" href="https://twitter.com/urbanslug">urbanslug</a></span>
+          </div>
+          <p class="p-copyright">
+              
+              
+    All work is under the terms of the <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License, Version 1.3</a>
+
+          </p>
+      </footer>
+
+      
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;css&#x2F;katex.min.css">
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;katex.min.js"></script>
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;mathtex-script-type.min.js"></script>
+    </body>
+</html>

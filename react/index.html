@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="referrer" content="no-referrer">
+
+        <!-- Enable responsiveness on mobile devices-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+        <title>Flux, React and Redux | Mostly Programming</title>
+<meta property="og:title" content="Flux, React and Redux | Mostly Programming" />
+<meta name="twitter:title" content="Flux, React and Redux | Mostly Programming" />
+
+        
+
+        <meta property="og:site_name" content="Mostly Programming" />
+        <meta property="og:url" content="https:&#x2F;&#x2F;blog.njagi.me" />
+
+        
+
+
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;base.css" />
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;style.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;fontawesome.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;brands.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;solid.css" rel="stylesheet">
+
+        <link rel='icon' type='image/x-icon' href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;favicon.ico" />
+
+        
+
+        
+
+    </head>
+    <body>
+        <a href="#main" class="skip-link p-screen-reader-text">Skip to content</a>
+        
+
+        
+        <div id="taxonomy-header"></div>
+        
+
+        <main id="main" class="l-main">
+            
+<article class="p-article">
+  <header>
+    <a id="home-link" href="https:&#x2F;&#x2F;blog.njagi.me"><i class="fas fa-home"></i> Mostly Programming</a>
+    <h1 id="page-title">Flux, React and Redux</h1>
+        <div>
+            <div class="c-time">
+
+              <time datetime="2018-06-29">
+                Jun 29, 2018
+              </time>
+              
+               - (14 min read)
+            </div>
+        </div>
+    </header>
+    
+    <section id="js-article" class="p-article__body">
+        
+    <p>React is declarative.</p>
+<p>An advantage <a href="https://vuejs.org/">vue.js</a> has over react is that react requires JSX and JSX 
+mangles up the data and operations.</p>
+<span id="continue-reading"></span><h2 id="react-component-class-or-react-component-type">React Component class or react component type<a class="zola-anchor" href="#react-component-class-or-react-component-type" aria-label="Anchor link for: react-component-class-or-react-component-type"><i class="fas fa-link"></i></a> 
+</h2>
+<p>A component takes parameters called <code>props</code>, short for <em>properties</em>, and returns
+a hierarchy of views to display via the <code>render</code> method.</p>
+<p>In Haskell speak it's as if a render is a functor and component is <code>fmap</code>.</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#c23f31;">component </span><span style="color:#1f1f1f;">:: </span><span style="color:#5597d6;">render </span><span style="color:#72ab00;">-&gt; </span><span style="color:#5597d6;">props </span><span style="color:#72ab00;">-&gt;  </span><span style="color:#5597d6;">hierarchy of views
+</span></code></pre>
+<p><code>render</code> returns a description of what you wish to render
+react takes the description and renders it to a screen
+<code>render</code> returns a react element (a lightweight description of what to render)</p>
+<p>Each React element is a real JavaScript object that you can store in a variable 
+or pass around your program.</p>
+<p>React components can have state by setting <code>this.state</code> in the constructor,
+which should be considered <em>private to the component</em>.</p>
+<p>In JavaScript classes, you need to explicitly call <code>super();</code> when defining the 
+constructor of a subclass.</p>
+<p>We even have a topic on <em>lifting</em> state </p>
+<p>When you want to aggregate data from multiple children or to have two child
+components communicate with each other, move the state upwards so that it lives
+in the parent component.</p>
+<p>The parent can then pass the state back down to the children via props, so that
+the child components are always in sync with each other and with the parent</p>
+<p>It is conventional in React apps to use on* names for the attributes and handle*
+for the handler methods.</p>
+<p><strong>Controlled components</strong> child components that receive their state from a
+parent component.</p>
+<p>React components are made up of react elements which so far look just like HTML
+elements to me.</p>
+<h2 id="rendering">rendering<a class="zola-anchor" href="#rendering" aria-label="Anchor link for: rendering"><i class="fas fa-link"></i></a> 
+</h2>
+<p>Imperative rendering</p>
+<p>React comes in here:
+re renders diffs</p>
+<p>From: <a href="https://www.cs.utexas.edu/users/EWD/transcriptions/EWD02xx/EWD215.html">A Case against the GO TO Statement by Edward Dijkstra</a></p>
+<blockquote>
+<p>we should do (as wise programmers aware of our limitations) our utmost best 
+to shorten the conceptual gap between the static  program and the dynamic
+process, to make the correspondence between the program (spread out in text 
+space) and the process (spread out in time) as trivial as possible.</p>
+</blockquote>
+<p>Make things snapshottable:</p>
+<ul>
+<li>one state to next state</li>
+</ul>
+<p>When data changes react re renders entire component</p>
+<p>referentially transparent functions/endpoints</p>
+<ul>
+<li>trivial to predict for given input</li>
+<li>easy to test</li>
+</ul>
+<p>Stateful DOM or any stateful UI toolkit</p>
+<p>Solution is a virtual DOM which is implemented in a lib called react</p>
+<p>immutability plays well with diffing two states</p>
+<h2 id="functional-components">Functional components<a class="zola-anchor" href="#functional-components" aria-label="Anchor link for: functional-components"><i class="fas fa-link"></i></a> 
+</h2>
+<p>Rather than return a class extending React.Component, write a fn that takes 
+props and returns what should be rendered.</p>
+<h2 id="state">state<a class="zola-anchor" href="#state" aria-label="Anchor link for: state"><i class="fas fa-link"></i></a> 
+</h2>
+<p>State is similar to props, but it is private and fully controlled by the component.
+Local state is exactly that: a feature available only to classes.</p>
+<h3 id="state-updates-may-be-asynchronous">State updates may be asynchronous<a class="zola-anchor" href="#state-updates-may-be-asynchronous" aria-label="Anchor link for: state-updates-may-be-asynchronous"><i class="fas fa-link"></i></a> 
+</h3>
+<p><strong>React</strong> may batch multiple <code>setState()</code> calls into a single update for
+performance.
+Because <code>this.props</code> and <code>this.state</code> may be updated asynchronously, you should 
+not rely on their values for calculating the next state.</p>
+<p>to fix this use a version of  <code>setState</code> that accepts a function e.g</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#5597d6;">this</span><span style="color:#1f1f1f;">.</span><span style="color:#5597d6;">setState</span><span style="color:#1f1f1f;">((</span><span style="color:#5597d6;">prevState</span><span style="color:#1f1f1f;">, </span><span style="color:#5597d6;">props</span><span style="color:#1f1f1f;">) </span><span style="color:#668f14;">=&gt; </span><span style="color:#1f1f1f;">{
+  </span><span style="color:#c23f31;">counter</span><span style="color:#1f1f1f;">: </span><span style="color:#5597d6;">prevState</span><span style="color:#1f1f1f;">.counter </span><span style="color:#72ab00;">+ </span><span style="color:#5597d6;">props</span><span style="color:#1f1f1f;">.increment
+});
+</span></code></pre><h3 id="state-updates-are-merged">State updates are merged<a class="zola-anchor" href="#state-updates-are-merged" aria-label="Anchor link for: state-updates-are-merged"><i class="fas fa-link"></i></a> 
+</h3>
+<p>merges the object you provide into the current state.
+merging is shallow i.e. leaves other key value pairs untouched</p>
+<h2 id="handling-events">Handling events<a class="zola-anchor" href="#handling-events" aria-label="Anchor link for: handling-events"><i class="fas fa-link"></i></a> 
+</h2>
+<p>When using React you should generally not need to call addEventListener to add 
+listeners to a DOM element after it is created. Instead, just provide a listener
+when the element is initially rendered.</p>
+<p>You have to be careful about the meaning of this in JSX callbacks. In JavaScript,
+class methods are not bound by default. If you forget to bind this.handleClick 
+and pass it to onClick, this will be undefined when the function is actually 
+called.</p>
+<p><a href="https://www.smashingmagazine.com/2014/01/understanding-javascript-function-prototype-bind/">Understanding JavaScript Bind ()</a></p>
+<p>You can use an arrow fn in the callback e.g <code>onClick={(e) =&gt; this.handleClick(e)}</code></p>
+<p>The problem with this syntax is that a different callback is created each time 
+the LoggingButton renders.
+In most cases, this is fine. However, if this callback is passed as a prop to 
+lower components, those components might do an extra re-rendering.
+We generally recommend binding in the constructor or using the class fields 
+syntax, to avoid this sort of performance problem.</p>
+<h2 id="lifecycle-hooks">Lifecycle hooks<a class="zola-anchor" href="#lifecycle-hooks" aria-label="Anchor link for: lifecycle-hooks"><i class="fas fa-link"></i></a> 
+</h2>
+<p>Methods run during the life cycle events
+such as mounting and umounting</p>
+<ul>
+<li><code>componentDidMount</code>: runs after the component output has been 
+rendered to the DOM.</li>
+<li><code>componentWillUnmount</code>: </li>
+</ul>
+<p><code>this.setState({})</code> takes an object of new state
+<code>constructor</code> runs before the object is created</p>
+<p>modifying state directly e.g this.state.comment = &quot;I'm new...&quot; 
+doesn't lead to a rerender. use set state</p>
+<p>The only place where you can assign <code>this.state</code> is the 
+<code>constructor</code>.</p>
+<p>Read more under:</p>
+<ul>
+<li>React.Component https://reactjs.org/docs/react-component.html</li>
+</ul>
+<h3 id="kaznet">kaznet<a class="zola-anchor" href="#kaznet" aria-label="Anchor link for: kaznet"><i class="fas fa-link"></i></a> 
+</h3>
+<p>App.js has all the paths
+triggers container for that component</p>
+<h2 id="hooks">Hooks<a class="zola-anchor" href="#hooks" aria-label="Anchor link for: hooks"><i class="fas fa-link"></i></a> 
+</h2>
+<p>From Kent C. Dotts videos 13-19
+Used to maintain component state</p>
+<h3 id="react-usestate">React.useState<a class="zola-anchor" href="#react-usestate" aria-label="Anchor link for: react-usestate"><i class="fas fa-link"></i></a> 
+</h3>
+<p>Takes the initial value. Returns an array containing the name and a 
+setter for the name.</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#668f14;">function </span><span style="color:#c23f31;">MyComponent</span><span style="color:#1f1f1f;">() {
+  </span><span style="color:#668f14;">const </span><span style="color:#1f1f1f;">[</span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">, </span><span style="color:#5597d6;">setName</span><span style="color:#1f1f1f;">] </span><span style="color:#72ab00;">= </span><span style="color:#a2a001;">React</span><span style="color:#1f1f1f;">.</span><span style="color:#5597d6;">useState</span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&#39;&#39;</span><span style="color:#1f1f1f;">);
+  </span><span style="color:#668f14;">const </span><span style="color:#5597d6;">handleChange </span><span style="color:#72ab00;">= </span><span style="color:#5597d6;">event </span><span style="color:#668f14;">=&gt; </span><span style="color:#5597d6;">setName</span><span style="color:#1f1f1f;">(</span><span style="color:#5597d6;">event</span><span style="color:#1f1f1f;">.target.value);
+
+  </span><span style="color:#668f14;">const </span><span style="color:#1f1f1f;">[</span><span style="color:#5597d6;">name2</span><span style="color:#1f1f1f;">, </span><span style="color:#5597d6;">setName2</span><span style="color:#1f1f1f;">] </span><span style="color:#72ab00;">= </span><span style="color:#a2a001;">React</span><span style="color:#1f1f1f;">.</span><span style="color:#5597d6;">useState</span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&#39;&#39;</span><span style="color:#1f1f1f;">);
+  </span><span style="color:#668f14;">const </span><span style="color:#5597d6;">handleChange2 </span><span style="color:#72ab00;">= </span><span style="color:#5597d6;">event </span><span style="color:#668f14;">=&gt; </span><span style="color:#5597d6;">setName</span><span style="color:#1f1f1f;">(</span><span style="color:#5597d6;">event</span><span style="color:#1f1f1f;">.target.value);
+  
+
+  </span><span style="color:#72ab00;">return </span><span style="color:#1f1f1f;">(
+    </span><span style="color:#72ab00;">&lt;</span><span style="color:#5597d6;">div</span><span style="color:#72ab00;">&gt;
+
+      &lt;</span><span style="color:#5597d6;">form</span><span style="color:#72ab00;">&gt;
+        &lt;!-- </span><span style="color:#5597d6;">htmlFor is like for </span><span style="color:#72ab00;">in </span><span style="color:#5597d6;">html for but JSX</span><span style="color:#72ab00;">--&gt;
+        &lt;</span><span style="color:#5597d6;">label htmlFor</span><span style="color:#72ab00;">=</span><span style="color:#d07711;">&quot;name&quot;&quot;&gt;&lt;/label&gt;</span><span style="background-color:#562d56bf;color:#f8f8f8;">
+</span><span style="color:#1f1f1f;">        </span><span style="color:#72ab00;">&lt;</span><span style="color:#5597d6;">input id</span><span style="color:#72ab00;">=</span><span style="color:#d07711;">&quot;name&quot; </span><span style="color:#5597d6;">onChange</span><span style="color:#72ab00;">=</span><span style="color:#1f1f1f;">{</span><span style="color:#5597d6;">handleChange</span><span style="color:#1f1f1f;">}</span><span style="color:#72ab00;">&gt;&lt;</span><span style="color:#c49a39;">/input&gt;
+      &lt;/for</span><span style="color:#72ab00;">m&gt;
+      </span><span style="color:#1f1f1f;">{name ? &lt;strong&gt;Helllo {</span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">}</span><span style="color:#72ab00;">&lt;</span><span style="color:#c49a39;">/strong&gt; : &lt;span&gt;Please type in name&lt;/</span><span style="color:#72ab00;">s</span><span style="color:#c49a39;">pan</span><span style="color:#72ab00;">&gt;</span><span style="color:#1f1f1f;">}
+      
+      </span><span style="color:#72ab00;">&lt;</span><span style="color:#5597d6;">form</span><span style="color:#72ab00;">&gt;
+        &lt;!-- </span><span style="color:#5597d6;">htmlFor is like </span><span style="color:#72ab00;">for </span><span style="color:#5597d6;">in html </span><span style="color:#72ab00;">for </span><span style="color:#5597d6;">but JSX</span><span style="color:#72ab00;">--&gt;
+        &lt;</span><span style="color:#5597d6;">label htmlFor</span><span style="color:#72ab00;">=</span><span style="color:#d07711;">&quot;name2&quot;&quot;&gt;&lt;/label&gt;</span><span style="background-color:#562d56bf;color:#f8f8f8;">
+</span><span style="color:#1f1f1f;">        </span><span style="color:#72ab00;">&lt;</span><span style="color:#5597d6;">input id</span><span style="color:#72ab00;">=</span><span style="color:#d07711;">&quot;name2&quot; </span><span style="color:#5597d6;">onChange</span><span style="color:#72ab00;">=</span><span style="color:#1f1f1f;">{</span><span style="color:#5597d6;">handleChange2</span><span style="color:#1f1f1f;">}</span><span style="color:#72ab00;">&gt;&lt;</span><span style="color:#c49a39;">/input&gt;
+      &lt;/for</span><span style="color:#72ab00;">m&gt;
+      </span><span style="color:#1f1f1f;">{name2 ? &lt;strong&gt;Yes? {</span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">}</span><span style="color:#72ab00;">&lt;</span><span style="color:#c49a39;">/strong&gt; : &lt;span&gt;Please type in name&lt;/</span><span style="color:#72ab00;">s</span><span style="color:#c49a39;">pan</span><span style="color:#72ab00;">&gt;</span><span style="background-color:#562d56bf;color:#f8f8f8;">}</span><span style="color:#1f1f1f;">
+
+    </span><span style="color:#72ab00;">&lt;</span><span style="color:#c49a39;">/div&gt;
+  )
+}
+</span></code></pre><h3 id="react-useeffect">React.useEffect<a class="zola-anchor" href="#react-useeffect" aria-label="Anchor link for: react-useeffect"><i class="fas fa-link"></i></a> 
+</h3>
+<p>A react hook that lets us do things that have side effects e.g save
+value to <code>localStorage</code>.</p>
+<p>useEffect takes a lambda and an array of dependencies where we pass
+what we want to sync the state of the world with the state of our 
+app.</p>
+<p>Check the dependency array with <a href="https://www.npmjs.com/package/eslint-plugin-react-hooks">eslint-plugin-react-hooks</a>
+to keep the array up to date.</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#668f14;">function </span><span style="color:#c23f31;">MyComponent</span><span style="color:#1f1f1f;">() {
+  </span><span style="color:#7f8989;">// First get what&#39;s in localStorage
+  </span><span style="color:#668f14;">const </span><span style="color:#1f1f1f;">[</span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">, </span><span style="color:#5597d6;">setName</span><span style="color:#1f1f1f;">] </span><span style="color:#72ab00;">= </span><span style="color:#a2a001;">React</span><span style="color:#1f1f1f;">.</span><span style="color:#5597d6;">useState</span><span style="color:#1f1f1f;">(
+    </span><span style="color:#7f8989;">/* pass a lambda here to make this initialization lazy
+       it will only be called to fetch the intiial value and not in 
+       re-renders
+     */
+    </span><span style="color:#1f1f1f;">() </span><span style="color:#668f14;">=&gt; </span><span style="color:#a2a001;">window</span><span style="color:#1f1f1f;">.localStorage.</span><span style="color:#5597d6;">getItem</span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&#39;name&#39;</span><span style="color:#1f1f1f;">) </span><span style="color:#72ab00;">|| </span><span style="color:#d07711;">&#39;&#39;
+  </span><span style="color:#1f1f1f;">);
+  
+  </span><span style="color:#668f14;">const </span><span style="color:#5597d6;">handleChange </span><span style="color:#72ab00;">= </span><span style="color:#5597d6;">event </span><span style="color:#668f14;">=&gt; </span><span style="color:#5597d6;">setName</span><span style="color:#1f1f1f;">(</span><span style="color:#5597d6;">event</span><span style="color:#1f1f1f;">.target.value);
+
+  </span><span style="color:#7f8989;">// in this case we want to store only name
+  </span><span style="color:#a2a001;">React</span><span style="color:#1f1f1f;">.</span><span style="color:#5597d6;">useEffect</span><span style="color:#1f1f1f;">(() </span><span style="color:#668f14;">=&gt; </span><span style="color:#1f1f1f;">{
+    </span><span style="color:#a2a001;">window</span><span style="color:#1f1f1f;">.localStorage.</span><span style="color:#5597d6;">setItem</span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&#39;name&#39;</span><span style="color:#1f1f1f;">, </span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">);
+  }, [</span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">]);
+
+  </span><span style="color:#668f14;">const </span><span style="color:#1f1f1f;">[</span><span style="color:#5597d6;">name2</span><span style="color:#1f1f1f;">, </span><span style="color:#5597d6;">setName2</span><span style="color:#1f1f1f;">] </span><span style="color:#72ab00;">= </span><span style="color:#a2a001;">React</span><span style="color:#1f1f1f;">.</span><span style="color:#5597d6;">useState</span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&#39;&#39;</span><span style="color:#1f1f1f;">);
+  </span><span style="color:#668f14;">const </span><span style="color:#5597d6;">handleChange2 </span><span style="color:#72ab00;">= </span><span style="color:#5597d6;">event </span><span style="color:#668f14;">=&gt; </span><span style="color:#5597d6;">setName</span><span style="color:#1f1f1f;">(</span><span style="color:#5597d6;">event</span><span style="color:#1f1f1f;">.target.value);
+  
+
+  </span><span style="color:#72ab00;">return </span><span style="color:#1f1f1f;">(
+    </span><span style="color:#72ab00;">&lt;</span><span style="color:#5597d6;">div</span><span style="color:#72ab00;">&gt;
+      &lt;</span><span style="color:#5597d6;">form</span><span style="color:#72ab00;">&gt;
+        &lt;!-- </span><span style="color:#5597d6;">htmlFor is like for </span><span style="color:#72ab00;">in </span><span style="color:#5597d6;">html for but JSX</span><span style="color:#72ab00;">--&gt;
+        &lt;</span><span style="color:#5597d6;">label htmlFor</span><span style="color:#72ab00;">=</span><span style="color:#d07711;">&quot;name&quot;&quot;&gt;&lt;/label&gt;</span><span style="background-color:#562d56bf;color:#f8f8f8;">
+</span><span style="color:#1f1f1f;">        </span><span style="color:#72ab00;">&lt;</span><span style="color:#5597d6;">input id</span><span style="color:#72ab00;">=</span><span style="color:#d07711;">&quot;name&quot; </span><span style="color:#5597d6;">onChange</span><span style="color:#72ab00;">=</span><span style="color:#1f1f1f;">{</span><span style="color:#5597d6;">handleChange</span><span style="color:#1f1f1f;">}</span><span style="color:#72ab00;">&gt;&lt;</span><span style="color:#c49a39;">/input&gt;
+      &lt;/for</span><span style="color:#72ab00;">m&gt;
+      </span><span style="color:#1f1f1f;">{name ? &lt;strong&gt;Helllo {</span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">}</span><span style="color:#72ab00;">&lt;</span><span style="color:#c49a39;">/strong&gt; : &lt;span&gt;Please type in name&lt;/</span><span style="color:#72ab00;">s</span><span style="color:#c49a39;">pan</span><span style="color:#72ab00;">&gt;</span><span style="color:#1f1f1f;">}
+      
+      </span><span style="color:#72ab00;">&lt;</span><span style="color:#5597d6;">form</span><span style="color:#72ab00;">&gt;
+        &lt;!-- </span><span style="color:#5597d6;">htmlFor is like </span><span style="color:#72ab00;">for </span><span style="color:#5597d6;">in html </span><span style="color:#72ab00;">for </span><span style="color:#5597d6;">but JSX</span><span style="color:#72ab00;">--&gt;
+        &lt;</span><span style="color:#5597d6;">label htmlFor</span><span style="color:#72ab00;">=</span><span style="color:#d07711;">&quot;name2&quot;&quot;&gt;&lt;/label&gt;</span><span style="background-color:#562d56bf;color:#f8f8f8;">
+</span><span style="color:#1f1f1f;">        </span><span style="color:#72ab00;">&lt;</span><span style="color:#5597d6;">input id</span><span style="color:#72ab00;">=</span><span style="color:#d07711;">&quot;name2&quot; </span><span style="color:#5597d6;">onChange</span><span style="color:#72ab00;">=</span><span style="color:#1f1f1f;">{</span><span style="color:#5597d6;">handleChange2</span><span style="color:#1f1f1f;">}</span><span style="color:#72ab00;">&gt;&lt;</span><span style="color:#c49a39;">/input&gt;
+      &lt;/for</span><span style="color:#72ab00;">m&gt;
+      </span><span style="color:#1f1f1f;">{name2 ? &lt;strong&gt;Yes? {</span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">}</span><span style="color:#72ab00;">&lt;</span><span style="color:#c49a39;">/strong&gt; : &lt;span&gt;Please type in name&lt;/</span><span style="color:#72ab00;">s</span><span style="color:#c49a39;">pan</span><span style="color:#72ab00;">&gt;</span><span style="background-color:#562d56bf;color:#f8f8f8;">}</span><span style="color:#1f1f1f;">
+    </span><span style="color:#72ab00;">&lt;</span><span style="color:#c49a39;">/div&gt;
+  )
+}
+</span></code></pre>
+<p>The localStorage pattern is common so there's an npm package for it
+that has an API like the following:</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#668f14;">function </span><span style="color:#c23f31;">useLocalStorage</span><span style="color:#1f1f1f;">(</span><span style="color:#5597d6;">key</span><span style="color:#1f1f1f;">, </span><span style="color:#5597d6;">defaultValue</span><span style="color:#72ab00;">=</span><span style="color:#d07711;">&#39;&#39;</span><span style="color:#1f1f1f;">) {
+  </span><span style="color:#668f14;">const </span><span style="color:#1f1f1f;">[</span><span style="color:#5597d6;">state</span><span style="color:#1f1f1f;">, </span><span style="color:#5597d6;">setState</span><span style="color:#1f1f1f;">] </span><span style="color:#72ab00;">= </span><span style="color:#a2a001;">React</span><span style="color:#1f1f1f;">.</span><span style="color:#5597d6;">useState</span><span style="color:#1f1f1f;">(
+    () </span><span style="color:#668f14;">=&gt; </span><span style="color:#a2a001;">window</span><span style="color:#1f1f1f;">.localStorage.</span><span style="color:#5597d6;">getItem</span><span style="color:#1f1f1f;">(</span><span style="color:#5597d6;">key</span><span style="color:#1f1f1f;">) </span><span style="color:#72ab00;">|| </span><span style="color:#5597d6;">defaultValue
+  </span><span style="color:#1f1f1f;">);
+
+  </span><span style="color:#a2a001;">React</span><span style="color:#1f1f1f;">.</span><span style="color:#5597d6;">useEffect</span><span style="color:#1f1f1f;">(() </span><span style="color:#668f14;">=&gt; </span><span style="color:#1f1f1f;">{
+    </span><span style="color:#a2a001;">window</span><span style="color:#1f1f1f;">.localStorage.</span><span style="color:#5597d6;">setItem</span><span style="color:#1f1f1f;">(</span><span style="color:#5597d6;">key</span><span style="color:#1f1f1f;">, </span><span style="color:#5597d6;">state</span><span style="color:#1f1f1f;">);
+  }, [</span><span style="color:#5597d6;">state</span><span style="color:#1f1f1f;">]);
+
+  </span><span style="color:#72ab00;">return </span><span style="color:#1f1f1f;">[</span><span style="color:#5597d6;">state</span><span style="color:#1f1f1f;">, </span><span style="color:#5597d6;">setState</span><span style="color:#1f1f1f;">]
+}
+
+</span><span style="color:#668f14;">function </span><span style="color:#c23f31;">MyComponent</span><span style="color:#1f1f1f;">() {
+  </span><span style="color:#668f14;">const </span><span style="color:#1f1f1f;">[</span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">, </span><span style="color:#5597d6;">setName</span><span style="color:#1f1f1f;">] </span><span style="color:#72ab00;">= </span><span style="color:#5597d6;">useLocalStorage</span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&#39;name&#39;</span><span style="color:#1f1f1f;">, </span><span style="color:#d07711;">&#39;&#39;</span><span style="color:#1f1f1f;">);
+  </span><span style="color:#668f14;">const </span><span style="color:#5597d6;">handleChange </span><span style="color:#72ab00;">= </span><span style="color:#5597d6;">event </span><span style="color:#668f14;">=&gt; </span><span style="color:#5597d6;">setName</span><span style="color:#1f1f1f;">(</span><span style="color:#5597d6;">event</span><span style="color:#1f1f1f;">.target.value);
+  
+  </span><span style="color:#72ab00;">return </span><span style="color:#1f1f1f;">(
+    </span><span style="color:#72ab00;">&lt;</span><span style="color:#5597d6;">div</span><span style="color:#72ab00;">&gt;
+      &lt;</span><span style="color:#5597d6;">form</span><span style="color:#72ab00;">&gt;
+        &lt;!-- </span><span style="color:#5597d6;">htmlFor is like for </span><span style="color:#72ab00;">in </span><span style="color:#5597d6;">html for but JSX</span><span style="color:#72ab00;">--&gt;
+        &lt;</span><span style="color:#5597d6;">label htmlFor</span><span style="color:#72ab00;">=</span><span style="color:#d07711;">&quot;name&quot;&quot;&gt;&lt;/label&gt;</span><span style="background-color:#562d56bf;color:#f8f8f8;">
+</span><span style="color:#1f1f1f;">        </span><span style="color:#72ab00;">&lt;</span><span style="color:#5597d6;">input id</span><span style="color:#72ab00;">=</span><span style="color:#d07711;">&quot;name&quot; </span><span style="color:#5597d6;">onChange</span><span style="color:#72ab00;">=</span><span style="color:#1f1f1f;">{</span><span style="color:#5597d6;">handleChange</span><span style="color:#1f1f1f;">}</span><span style="color:#72ab00;">&gt;&lt;</span><span style="color:#c49a39;">/input&gt;
+      &lt;/for</span><span style="color:#72ab00;">m&gt;
+      </span><span style="color:#1f1f1f;">{name ? &lt;strong&gt;Helllo {</span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">}</span><span style="color:#72ab00;">&lt;</span><span style="color:#c49a39;">/strong&gt; : &lt;span&gt;Please type in name&lt;/</span><span style="color:#72ab00;">s</span><span style="color:#c49a39;">pan</span><span style="color:#72ab00;">&gt;</span><span style="color:#1f1f1f;">}
+    </span><span style="color:#72ab00;">&lt;</span><span style="color:#c49a39;">/div&gt;
+  )
+}
+
+</span></code></pre>
+<p>It's convention to have custom hooks begin with <code>use</code> that way
+<a href="https://www.npmjs.com/package/eslint-plugin-react-hooks">eslint-plugin-react-hooks</a> can check out custom hooks for 
+mistakes.</p>
+<h3 id="react-useref">React.useRef<a class="zola-anchor" href="#react-useref" aria-label="Anchor link for: react-useref"><i class="fas fa-link"></i></a> 
+</h3>
+<p>A ref is a reference to the DOM node created by react.
+To get it we use <code>React.useRef</code></p>
+<p>A ref is an object with a mutable current property</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#668f14;">function </span><span style="color:#c23f31;">Tild</span><span style="color:#1f1f1f;">({</span><span style="color:#5597d6;">children</span><span style="color:#1f1f1f;">}) {
+  </span><span style="color:#668f14;">const </span><span style="color:#5597d6;">tiltRef </span><span style="color:#72ab00;">= </span><span style="color:#5597d6;">React</span><span style="color:#1f1f1f;">.</span><span style="color:#c23f31;">useRef</span><span style="color:#1f1f1f;">();
+  
+  </span><span style="color:#7f8989;">/*
+    This code runs after react has updated the DOM
+    Interacting with the DOM is impure so we use a useRef hook
+   */
+  </span><span style="color:#5597d6;">React</span><span style="color:#1f1f1f;">.</span><span style="color:#c23f31;">useEffect</span><span style="color:#1f1f1f;">(() </span><span style="color:#668f14;">=&gt; </span><span style="color:#1f1f1f;">{
+   </span><span style="color:#a2a001;">console</span><span style="color:#1f1f1f;">.</span><span style="color:#b39f04;">log</span><span style="color:#1f1f1f;">(</span><span style="color:#5597d6;">tiltRef</span><span style="color:#1f1f1f;">.</span><span style="color:#a2a001;">current</span><span style="color:#1f1f1f;">)
+   </span><span style="color:#7f8989;">// tiltNode is our DOM node with class name my-class
+   </span><span style="color:#5597d6;">tiltNode </span><span style="color:#72ab00;">= </span><span style="color:#5597d6;">tiltRef</span><span style="color:#1f1f1f;">.</span><span style="color:#a2a001;">current
+   
+   </span><span style="color:#7f8989;">// We may need to clean up our DOM node.
+   // Ran when the component is unmounted from the page
+   </span><span style="color:#72ab00;">return </span><span style="color:#1f1f1f;">() </span><span style="color:#668f14;">=&gt; </span><span style="color:#1f1f1f;">{
+     </span><span style="color:#5597d6;">tiltNode</span><span style="color:#1f1f1f;">.</span><span style="color:#5597d6;">vanillaTilt</span><span style="color:#1f1f1f;">.</span><span style="color:#c23f31;">destroy</span><span style="color:#1f1f1f;">()
+   }
+  }, []); </span><span style="color:#7f8989;">// the empty dependency array makes us not run useEffect between re-renders.
+  
+  </span><span style="color:#72ab00;">return </span><span style="color:#1f1f1f;">(
+    &lt;</span><span style="color:#c23f31;">div ref</span><span style="color:#1f1f1f;">={</span><span style="color:#5597d6;">tiltRef</span><span style="color:#1f1f1f;">} </span><span style="color:#c23f31;">className</span><span style="color:#1f1f1f;">=</span><span style="color:#d07711;">&quot;my-class&quot;</span><span style="color:#1f1f1f;">&gt;
+    </span><span style="color:#72ab00;">...
+    &lt;/</span><span style="color:#5597d6;">div</span><span style="color:#72ab00;">&gt;
+  </span><span style="color:#1f1f1f;">)
+}
+</span></code></pre><h1 id="flux">Flux<a class="zola-anchor" href="#flux" aria-label="Anchor link for: flux"><i class="fas fa-link"></i></a> 
+</h1>
+<p><a href="https://facebook.github.io/flux/">Flux</a> architecture for building UIs using react.</p>
+<p>Think of flux as new MVC</p>
+<ul>
+<li><strong>action</strong>: comes into the system</li>
+<li><strong>dispatcher</strong>: traffic controller for the whole thing </li>
+<li><strong>store</strong>: data layer updates whenever we get a new action</li>
+<li><strong>view</strong>: re render whenever store says something has changed</li>
+</ul>
+<p>Difference from MVC</p>
+<ul>
+<li>use explicit data instead of derived data</li>
+<li>separate data from view state</li>
+<li>avoid cascading effects by preventing nested updates
+<ul>
+<li>x updates y which updates z</li>
+<li>let data layer completely finish processing before triggering any 
+additional actions</li>
+</ul>
+</li>
+</ul>
+<p>single direction flow:
+<img src="https://drive.google.com/uc?id=1DkAZI2u3Tm0mYu0r30777zx_mTuVIAM7" alt="" /></p>
+<p>flux
+<img src="https://drive.google.com/uc?id=1ZqK27JXsy3K5jWjpufpn6h8aEFyNB3gL" alt="" /></p>
+<p>the dispatcher ensures that until store is done
+views or anything else can't put an action through the system</p>
+<p>advantages:</p>
+<ul>
+<li>improved data consistency: everything in sync</li>
+<li>easier to pinpoint root of a bug</li>
+<li>easier unit tests because modules are pure-ish/atomic/functional</li>
+</ul>
+<h2 id="views">views<a class="zola-anchor" href="#views" aria-label="Anchor link for: views"><i class="fas fa-link"></i></a> 
+</h2>
+<p>can trigger actions</p>
+<h2 id="dispatcher">dispatcher<a class="zola-anchor" href="#dispatcher" aria-label="Anchor link for: dispatcher"><i class="fas fa-link"></i></a> 
+</h2>
+<p>enforces no cascading effects once an action goes
+into store you can't put another until store is done processing it</p>
+<h1 id="hackernooon-post-summary">Hackernooon post summary<a class="zola-anchor" href="#hackernooon-post-summary" aria-label="Anchor link for: hackernooon-post-summary"><i class="fas fa-link"></i></a> 
+</h1>
+<p>An implementation of the Flux architecture— a pattern for passing data around in a React app.</p>
+<p><em>Under classic Flux, app state is held within stores.
+Dispatched actions cause this state to change, afterwhich the views that listen to these 
+state changes will re-render themselves accordingly</em></p>
+<h2 id="flux-1">Flux<a class="zola-anchor" href="#flux-1" aria-label="Anchor link for: flux-1"><i class="fas fa-link"></i></a> 
+</h2>
+<p><img src="https://hackernoon.com/hn-images/1*stmn8kxXJrX9hbk39hHQJA.png" alt="" /></p>
+<h2 id="redux">Redux<a class="zola-anchor" href="#redux" aria-label="Anchor link for: redux"><i class="fas fa-link"></i></a> 
+</h2>
+<p><img src="https://hackernoon.com/hn-images/1*9kbmrgH8voxp_rx25LPqIw.png" alt="" /></p>
+<h2 id="dir-structure">Dir structure<a class="zola-anchor" href="#dir-structure" aria-label="Anchor link for: dir-structure"><i class="fas fa-link"></i></a> 
+</h2>
+<ul>
+<li><code>/src/component/</code> <em>Dumb</em> React components that have no knowledge of Redux</li>
+<li><code>/src/containers/</code>  <em>Smart</em> React components that are connected to our Redux store</li>
+<li><code>/src/services</code> Abstraction facades for external API (like backend servers)</li>
+<li><code>/src/store</code> All Redux-specific code goes here, including all business-logic of our app</li>
+</ul>
+<p>The store directory is organized by domain, each containing:</p>
+<ul>
+<li><code>/src/store/{domain}/reducer.js</code> Reducer as a default export with all selectors as named exports</li>
+<li><code>/src/store/{domain}/actions.js</code> All the domain action handlers (thunks and plain object creators)</li>
+</ul>
+<p>The <em>reducer</em> holds the state and updates it.</p>
+<p>Rules:</p>
+<ul>
+<li>Smart components are not allowed to have any logic except dispatching actions.</li>
+<li>Services must be completely stateless.</li>
+<li>Smart components should always access state through selectors.</li>
+<li>Minimize view logic in smart components by extracting it into dumb components.</li>
+<li>Place all business logic inside action handlers (thunks), selectors and reducers.</li>
+</ul>
+<h3 id="selectors">Selectors<a class="zola-anchor" href="#selectors" aria-label="Anchor link for: selectors"><i class="fas fa-link"></i></a> 
+</h3>
+<p>A selector is a pure function that takes the global state as argument and returns some transformation over it
+Selectors are tightly coupled to reducers and are located inside reducer.js</p>
+<h1 id="redux-1">Redux<a class="zola-anchor" href="#redux-1" aria-label="Anchor link for: redux-1"><i class="fas fa-link"></i></a> 
+</h1>
+<p>Redux has no relation to react but works especially well with it because react 
+let's you describe the UI as a function of state.
+Redux emits state updates in response to actions.</p>
+<p><a href="https://redux.js.org/introduction/getting-started">Redux docs</a></p>
+<h2 id="actions">actions<a class="zola-anchor" href="#actions" aria-label="Anchor link for: actions"><i class="fas fa-link"></i></a> 
+</h2>
+<p>pure functions in redux
+only 2 things allowed to interact with the store
+one is a reducer it changes the state
+others are selectors retrieve data from the state</p>
+<p>containers are components aware of global state</p>
+<p>all things that fetch lists should be aware of pagination</p>
+<p>page numbers</p>
+<p>generic for tasks, locations clients</p>
+<h3 id="connect-mapstatetoprops-mapdispatchtoprops-mergeprops-options">connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])<a class="zola-anchor" href="#connect-mapstatetoprops-mapdispatchtoprops-mergeprops-options" aria-label="Anchor link for: connect-mapstatetoprops-mapdispatchtoprops-mergeprops-options"><i class="fas fa-link"></i></a> 
+</h3>
+<p>Connects a React component to a Redux store. 
+<code>connect</code> is a facade around <code>connectAdvanced</code>, providing a convenient API for 
+the most common use cases.</p>
+<p>It doesn't modify the component class passed to it; instead
+it returns a new, connected component class for you to use.</p>
+<p>References</p>
+<ul>
+<li><a href="https://www.sohamkamani.com/blog/2017/03/31/react-redux-connect-explained/">React-redux &quot;connect&quot; explained</a></li>
+<li><a href="https://redux.js.org/basics/usage-with-react">Usage with React</a></li>
+<li><a href="https://github.com/reduxjs/react-redux">source code</a></li>
+</ul>
+<h3 id="mapstatetoprops">mapStateToProps<a class="zola-anchor" href="#mapstatetoprops" aria-label="Anchor link for: mapstatetoprops"><i class="fas fa-link"></i></a> 
+</h3>
+<p>The result must be a plain object which will be <strong>merged</strong> into the component's 
+props.</p>
+<h3 id="mapdispatchtoprops">mapDispatchToProps<a class="zola-anchor" href="#mapdispatchtoprops" aria-label="Anchor link for: mapdispatchtoprops"><i class="fas fa-link"></i></a> 
+</h3>
+<h2 id="provider">Provider<a class="zola-anchor" href="#provider" aria-label="Anchor link for: provider"><i class="fas fa-link"></i></a> 
+</h2>
+<p>To allow all components to access the store use a special react redux 
+component <Provider> to make the store available to all container components in
+the app without passing it explicitly.</p>
+<p>Read more:</p>
+<ul>
+<li><a href="https://github.com/reduxjs/react-redux/blob/master/docs/api.md#provider-store">provider docs</a></li>
+</ul>
+<h3 id="action-creator">Action creator<a class="zola-anchor" href="#action-creator" aria-label="Anchor link for: action-creator"><i class="fas fa-link"></i></a> 
+</h3>
+<p>A function that creates an action.</p>
+<blockquote>
+<p>action is a payload of information, and an action creator is a factory that 
+creates an action.</p>
+</blockquote>
+<p>Calling an action creator only produces the action but does not dispatch it.
+You need to call the store's <a href="https://redux.js.org/api-reference/store#dispatch">dispatch</a> fn to actually cause the mutation</p>
+<h2 id="reducer">Reducer<a class="zola-anchor" href="#reducer" aria-label="Anchor link for: reducer"><i class="fas fa-link"></i></a> 
+</h2>
+<p>Also called a reducing function function that accepts an accumulation and a 
+value and returns a new value</p>
+<p>reduce in other langs or fold in haskell.</p>
+<p>reduce a collection of values into a single values</p>
+<p>most important concept in redux</p>
+<h3 id="combinereducers"><a href="https://redux.js.org/api-reference/combinereducers">combineReducers</a><a class="zola-anchor" href="#combinereducers" aria-label="Anchor link for: combinereducers"><i class="fas fa-link"></i></a> 
+</h3>
+<p>A helper function that turns an object whose values are different reducing 
+functions into a single reducing fn you can pass to <a href="https://redux.js.org/api-reference/createstore"><code>createStore</code></a>.</p>
+<p>the resulting reducer calls every child reducer and gethers the resilt into a
+single state object</p>
+<p>The state produced by <code>combineReducers()</code> namespaces the states of each reducer 
+under their keys as passed to <code>combineReducers()</code>.</p>
+<h3 id="createstore">createStore<a class="zola-anchor" href="#createstore" aria-label="Anchor link for: createstore"><i class="fas fa-link"></i></a> 
+</h3>
+<p>creates a single redux store that holds the complete state of your app.</p>
+<blockquote>
+<p>Your app should have a single store</p>
+</blockquote>
+<p>args: reducer, preloadedState, enhancer</p>
+<p>enhancer: <strong>store enhancer</strong> optionally specify it to enhance the store with 
+third party capabilities such as middleware, time travel, persistence etc</p>
+<p>the only store enhancer that ships with redux is <a href="https://redux.js.org/api-reference/applymiddleware"><code>applyMiddleware</code></a>.</p>
+<h3 id="applymiddleware">applyMiddleware<a class="zola-anchor" href="#applymiddleware" aria-label="Anchor link for: applymiddleware"><i class="fas fa-link"></i></a> 
+</h3>
+<p>Lets you wrap the store's <a href="https://redux.js.org/api-reference/store#dispatch"><code>dispatch</code></a> method
+Middleware is composable</p>
+<p>Most common use case is to support async actions without much boilerplate code 
+or lib dependency.
+Does so by letting you dispatch <a href="https://redux.js.org/glossary#async-action"><code>async actions</code></a> in addition to normal
+actions.</p>
+<p>https://redux.js.org/api/applymiddleware</p>
+<h4 id="thunk-redux">thunk-redux<a class="zola-anchor" href="#thunk-redux" aria-label="Anchor link for: thunk-redux"><i class="fas fa-link"></i></a> 
+</h4>
+<p>lets the action creators invert control by dispatching functions.
+They would receive <code>dispatch</code> as an arg and may call it async. 
+Such functions are called thunks.</p>
+<h4 id="redux-promise">redux-promise<a class="zola-anchor" href="#redux-promise" aria-label="Anchor link for: redux-promise"><i class="fas fa-link"></i></a> 
+</h4>
+<p>Lets you dispatch a promise async action and dispatches a normal action when
+the promise resolves.</p>
+<blockquote>
+<p>Middleware is not baked into createStore and is not a fundamental part of the 
+Redux architecture, but we consider it useful enough to be supported right in 
+the core. This way, there is a single standard way to extend dispatch in the 
+ecosystem, and different middleware may compete in expressiveness and utility.</p>
+</blockquote>
+<h4 id="async-action">Async action<a class="zola-anchor" href="#async-action" aria-label="Anchor link for: async-action"><i class="fas fa-link"></i></a> 
+</h4>
+<p>A value that is sent to a dispatching function but not yet ready for 
+consumption by the reducer.
+It will be transformed by middleware into an action before being sent to the 
+base dispatch fn.</p>
+<h3 id="store"><a href="https://redux.js.org/api-reference/store#dispatch">Store</a><a class="zola-anchor" href="#store" aria-label="Anchor link for: store"><i class="fas fa-link"></i></a> 
+</h3>
+<p>Holds the whole state tree of your app.
+A store is not a class. It's just an object with a few methods on it.</p>
+<p>There's no way to directly modify the store only way is through reducers and 
+only way to trigger reducers is to dispatch actions.</p>
+<p>to change data dispatch and action
+to obtain data we should (need to) go through a selector </p>
+<blockquote>
+<p>we get the state of the application at the time we made the select</p>
+</blockquote>
+<h2 id="components">Components<a class="zola-anchor" href="#components" aria-label="Anchor link for: components"><i class="fas fa-link"></i></a> 
+</h2>
+<p>Smart components are not allowed to have any logic except dispatching actions.
+Smart components should always access state through selectors.</p>
+<p>Place all business logic inside action handlers (thunks), selectors and reducers.</p>
+<h3 id="presentational-and-container-components">Presentational and container components<a class="zola-anchor" href="#presentational-and-container-components" aria-label="Anchor link for: presentational-and-container-components"><i class="fas fa-link"></i></a> 
+</h3>
+<p>reference: <a href="https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0">Medium---Presentational and Container Components</a>
+aka stateful and pure components among other names</p>
+<p>This approach achieves:</p>
+<ul>
+<li>separation of concerns</li>
+<li>reusability</li>
+</ul>
+<h2 id="services">Services<a class="zola-anchor" href="#services" aria-label="Anchor link for: services"><i class="fas fa-link"></i></a> 
+</h2>
+<p>Abstract an external API</p>
+<blockquote>
+<p>services must be stateless</p>
+</blockquote>
+<h2 id="state-1">State<a class="zola-anchor" href="#state-1" aria-label="Anchor link for: state-1"><i class="fas fa-link"></i></a> 
+</h2>
+<p>In Redux, the reducer is the construct that holds state and updates it</p>
+<h2 id="resources">Resources<a class="zola-anchor" href="#resources" aria-label="Anchor link for: resources"><i class="fas fa-link"></i></a> 
+</h2>
+<p><a href="https://hackernoon.com/redux-step-by-step-a-simple-and-robust-workflow-for-real-life-apps-1fdf7df46092">Hackernoon---Redux Step by Step: A Simple and Robust Workflow for Real Life Apps</a></p>
+<h1 id="service-workers">Service workers<a class="zola-anchor" href="#service-workers" aria-label="Anchor link for: service-workers"><i class="fas fa-link"></i></a> 
+</h1>
+<h1 id="appendix">Appendix<a class="zola-anchor" href="#appendix" aria-label="Anchor link for: appendix"><i class="fas fa-link"></i></a> 
+</h1>
+<ul>
+<li><strong>thunk</strong>: a function that takes no argument not like a <a href="https://wiki.haskell.org/Thunk">haskell thunk</a>.</li>
+</ul>
+<p>Other implementions of the store</p>
+<ul>
+<li>backbone: instagram</li>
+</ul>
+
+
+    </section>
+    <footer>
+      <hr>
+      <div>
+        
+        <div class="post-tags">
+          <p>Tags:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;react&#x2F;">React, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;javascript&#x2F;">Javascript, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;redux&#x2F;">Redux, </a>
+            
+          </p>
+        </div>
+        
+
+        
+        <div class="post-tags">
+          <p>Categories:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;categories&#x2F;notes&#x2F;">Notes</a>
+            
+          </p>
+        </div>
+        
+      </div>
+        <nav class="c-pagination p-pagination">
+            <div class="c-pagination__ctrl">
+                <div class="c-pagination__newer">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;deep-work&#x2F;">Deep Work</a>
+                </div>
+                <div class="c-pagination__older">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;logicomix&#x2F;">Logicomix</a>
+                </div>
+            </div>
+        </nav>
+    </footer>
+</article>
+        </main>
+
+        <footer class="l-footer">
+          <div id="socials">
+            <span class="social-item"><i class="fab fa-github"></i><a target="_blank" href="https://github.com/urbanslug">urbanslug</a></span>
+            <span class="social-item"><i class="fab fa-twitter"></i><a target="_blank" href="https://twitter.com/urbanslug">urbanslug</a></span>
+          </div>
+          <p class="p-copyright">
+              
+              
+    All work is under the terms of the <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License, Version 1.3</a>
+
+          </p>
+      </footer>
+
+      
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;css&#x2F;katex.min.css">
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;katex.min.js"></script>
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;mathtex-script-type.min.js"></script>
+    </body>
+</html>

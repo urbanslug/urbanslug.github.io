@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="referrer" content="no-referrer">
+
+        <!-- Enable responsiveness on mobile devices-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+        <title>Object Oriented Programming in C++ | Mostly Programming</title>
+<meta property="og:title" content="Object Oriented Programming in C++ | Mostly Programming" />
+<meta name="twitter:title" content="Object Oriented Programming in C++ | Mostly Programming" />
+
+        
+
+        <meta property="og:site_name" content="Mostly Programming" />
+        <meta property="og:url" content="https:&#x2F;&#x2F;blog.njagi.me" />
+
+        
+
+
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;base.css" />
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;style.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;fontawesome.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;brands.css" rel="stylesheet">
+        <link href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;fontawesome&#x2F;solid.css" rel="stylesheet">
+
+        <link rel='icon' type='image/x-icon' href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;favicon.ico" />
+
+        
+
+        
+
+    </head>
+    <body>
+        <a href="#main" class="skip-link p-screen-reader-text">Skip to content</a>
+        
+
+        
+        <div id="taxonomy-header"></div>
+        
+
+        <main id="main" class="l-main">
+            
+<article class="p-article">
+  <header>
+    <a id="home-link" href="https:&#x2F;&#x2F;blog.njagi.me"><i class="fas fa-home"></i> Mostly Programming</a>
+    <h1 id="page-title">Object Oriented Programming in C++</h1>
+        <div>
+            <div class="c-time">
+
+              <time datetime="2014-12-08">
+                Dec 08, 2014
+              </time>
+              
+               - (18 min read)
+            </div>
+        </div>
+    </header>
+    
+    <section id="js-article" class="p-article__body">
+        
+    <p>These notes assume you're familiar with functions, classes, inheritance and
+objects. This would be a good read for those taking <a href="http://www.mu.ac.ke/informationscience/index.php/academic-prorammes/bachelor-programmes/bachelor-of-science-in-informatics#second-semester">INF 332</a> but a C++ text
+book or <a href="https://en.wikibooks.org/wiki/C%2B%2B_Programming/Classes">this wikibooks article</a> would be better.
+I also use a lot of example code  so that it becomes easy for you (and me later)
+to follow along.</p>
+<span id="continue-reading"></span><h2 id="definitions">Definitions<a class="zola-anchor" href="#definitions" aria-label="Anchor link for: definitions"><i class="fas fa-link"></i></a> 
+</h2>
+<p><strong>Data member</strong>: (attribute) a variable accessible from within the class or
+global within the class.</p>
+<p><strong>Member function</strong>: (method) a function in a class.</p>
+<p><strong>Abstract class</strong>: A class containing at least one pure virtual function.</p>
+<p><strong>Getter</strong>: (accessor) a function used to access or get the value held by a
+private data member. These variable names often start with <code>get</code>.</p>
+<p><strong>Setter</strong>: (modifier) a function used to modify or set the value held by a
+private data member. These variable names often start with <code>set</code>.</p>
+<p><strong>Struct vs Class</strong>: There are two ways to define a class in C++.
+Using class and using struct.
+When using class all that is within the braces is private by default unless
+otherwise specified.
+When using struct all that is within the braces is public unless otherwise
+specified.</p>
+<p><strong>this</strong> It's a special pointer used to refer to the current object at the time.
+To use it dereference the pointer like so <code>this -&gt; memFunction()</code> or
+<code>(*this).memFunction()</code> to call member functions of the object itself.
+In a human analogy it's a pronoun the object can use to refer to itself;
+among people this would be &quot;me&quot;.</p>
+<p><strong>Base class</strong>: a class from which other classes are derived/inherit from.</p>
+<p><strong>Child class</strong>: a class that was derived from another, that class will then be
+its parent class.</p>
+<p><strong>Parent class</strong>: A parent class is the closest class that we derived from to
+create the one we are referencing as the child class.
+The one right above in the inheritance hierarchy.</p>
+<h2 id="access-labels">Access Labels<a class="zola-anchor" href="#access-labels" aria-label="Anchor link for: access-labels"><i class="fas fa-link"></i></a> 
+</h2>
+<p>These are private, public and protected.
+They are used within classes to set access permissions for the members in that
+section of the class.
+They are also used for base classes to specify how you want the base class
+inherited as shown in the table below.</p>
+<p><strong>public</strong>: This label indicates any members within the 'public' section can be
+accessed freely anywhere a declared object is in scope.</p>
+<p><strong>private</strong>: Members defined as private are only accessible within the class
+defining them, or friend classes. Usually the domain of member variables and
+helper functions.
+It's often useful to begin putting functions here and then moving them to the
+higher access levels as needed so to reduce complexity.</p>
+<p><strong>protected</strong>: The protected label has a special meaning to inheritance,
+protected members are accessible in the class that defines them and in classes
+that inherit from that base class, or friends of it.</p>
+<p>During inheritance things may change slightly as shown in this table.
+How things were in the parent class in terms of access lables may not be so in
+the child class.</p>
+<p>By type of inheritance I mean:</p>
+<ul>
+<li><em>class childClass: private parentClass</em> is private inheritance</li>
+<li><em>class childClass: protected parentClass</em> is protected inheritance</li>
+<li><em>class childClass: public parentClass</em> is public inheritance</li>
+</ul>
+<p>The following table indicates how the attributes are inherited in the three
+different types of inheritance:</p>
+<table><thead><tr><th>type of inheritance</th><th>private</th><th>protected</th><th>public</th></tr></thead><tbody>
+<tr><td>Private inheritance</td><td>The member is inaccessible.</td><td>The member is private.</td><td>The member is private.</td></tr>
+<tr><td>Protected inheritance</td><td>The member is inaccessible.</td><td>The member is protected</td><td>The member is protected</td></tr>
+<tr><td>Public inheritance</td><td>The member is inaccessible.</td><td>The member is protected</td><td>The member is public</td></tr>
+</tbody></table>
+<p><em>Table copied entirely from the <a href="https://en.wikibooks.org/wiki/C%2B%2B_Programming/Classes">wikibooks</a> article</em></p>
+<h2 id="constructors">Constructors<a class="zola-anchor" href="#constructors" aria-label="Anchor link for: constructors"><i class="fas fa-link"></i></a> 
+</h2>
+<p>A constructor is a special member function that is called <em>whenever</em> a new
+instance of a class is created.
+The compiler calls the  constructor <em>after</em> the new object has been allocated in
+memory, and converts that &quot;raw&quot; memory into a proper, typed object
+(typed here means the class becomes a type of the same level with int, string
+and so forth).</p>
+<p>A constructor is used to assign values to the data members that the creator of
+the class choses.
+If you don't declare a constructor the compiler will impicitly make one for you.</p>
+<p>The constructor is declared much like a normal member function but it:</p>
+<ul>
+<li>Doesn't have a type annotation meaning it doesn't start with the name of a
+type such as int or string.</li>
+<li>Has to have the same name as the class.</li>
+<li>Has no return value (Meaning it also has no return statement).</li>
+</ul>
+<p>The constructor may or may not have arguments.
+A constructor that does not take arguments is called a <strong>default constructor</strong>,
+while a constructor that takes argument(s) is a <strong>non-default constructor</strong>.</p>
+<p><strong>Overloading</strong>: This is the ability to create multiple methods of the same name
+but with different implementations.
+Calls to an overloaded function will run a specific implementation of that
+function appropriate to the context of the call, allowing one function call to
+perform different tasks depending on context.</p>
+<p>So let's rewrite this in a way that combines constructors and contructor
+overloading.
+Don't focus on what the code in the constructors does since I haven't yet
+covered it.
+However, take note that the constructors were called depending on the arguments
+that the objects passed to them.</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#72ab00;">#include </span><span style="color:#d07711;">&lt;iostream&gt;
+</span><span style="color:#72ab00;">using namespace</span><span style="color:#1f1f1f;"> std;
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">employee </span><span style="color:#1f1f1f;">{
+
+  </span><span style="color:#668f14;">int</span><span style="color:#1f1f1f;"> emp_num;
+  string emp_name;
+
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">employee </span><span style="color:#1f1f1f;">() { cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Default constructor of employee ran.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl; }
+
+  </span><span style="color:#c23f31;">employee </span><span style="color:#1f1f1f;">(string </span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">, </span><span style="color:#668f14;">int </span><span style="color:#5597d6;">num</span><span style="color:#1f1f1f;">): </span><span style="color:#5597d6;">emp_num </span><span style="color:#1f1f1f;">(num), </span><span style="color:#5597d6;">emp_name </span><span style="color:#1f1f1f;">(name) {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Employee &quot; </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#5597d6;">this </span><span style="color:#1f1f1f;">-&gt; </span><span style="color:#5597d6;">getName</span><span style="color:#1f1f1f;">()
+         </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#d07711;">&quot; created. With number &quot; </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#5597d6;">this </span><span style="color:#1f1f1f;">-&gt; </span><span style="color:#5597d6;">getNum</span><span style="color:#1f1f1f;">()
+         </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+
+  </span><span style="color:#c23f31;">employee </span><span style="color:#1f1f1f;">(</span><span style="color:#668f14;">int </span><span style="color:#5597d6;">num</span><span style="color:#1f1f1f;">, string </span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">): </span><span style="color:#5597d6;">emp_num </span><span style="color:#1f1f1f;">(num), </span><span style="color:#5597d6;">emp_name </span><span style="color:#1f1f1f;">(name) {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Employee &quot; </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#5597d6;">this </span><span style="color:#1f1f1f;">-&gt; </span><span style="color:#5597d6;">getName</span><span style="color:#1f1f1f;">()
+         </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot; created. With number &quot; </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#5597d6;">this </span><span style="color:#1f1f1f;">-&gt; </span><span style="color:#5597d6;">getNum</span><span style="color:#1f1f1f;">()
+         </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+
+  string </span><span style="color:#c23f31;">getName</span><span style="color:#1f1f1f;">() { </span><span style="color:#72ab00;">return</span><span style="color:#1f1f1f;"> emp_name; }
+  </span><span style="color:#668f14;">int </span><span style="color:#c23f31;">getNum</span><span style="color:#1f1f1f;">() { </span><span style="color:#72ab00;">return</span><span style="color:#1f1f1f;"> emp_num; }
+};
+
+</span><span style="color:#668f14;">int </span><span style="color:#c23f31;">main</span><span style="color:#1f1f1f;">() {
+  employee jack; </span><span style="color:#7f8989;">// It&#39;s not &quot;objectName ()&quot; but &quot;objectName&quot;. No empty brackets.
+</span><span style="color:#1f1f1f;">  employee </span><span style="color:#5597d6;">mo </span><span style="color:#1f1f1f;">(</span><span style="color:#b3933a;">123</span><span style="color:#1f1f1f;">, </span><span style="color:#d07711;">&quot;Nikki&quot;</span><span style="color:#1f1f1f;">);
+  employee </span><span style="color:#5597d6;">jackie </span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&quot;Jackson&quot;</span><span style="color:#1f1f1f;">, </span><span style="color:#b3933a;">254</span><span style="color:#1f1f1f;">);
+  </span><span style="color:#72ab00;">return </span><span style="color:#b3933a;">0</span><span style="color:#1f1f1f;">;
+}
+
+</span><span style="color:#7f8989;">/*
+   Output:
+
+   Default constructor of employee ran.
+   Employee Nikki created. With number 123
+   Employee Jackson created. With number 254
+*/
+</span></code></pre>
+<blockquote>
+<p>A constructor has the same name as the class, doesn't begin with
+a type annotation and returns nothing.</p>
+</blockquote>
+<h3 id="default-parameters">Default parameters<a class="zola-anchor" href="#default-parameters" aria-label="Anchor link for: default-parameters"><i class="fas fa-link"></i></a> 
+</h3>
+<p>It's a good idea to read on the below constructor initialization lists first
+then read this before looking at the example code.
+Sometimes we may want to have a default value initialised to a data member in
+case the creator of an object doesn't give it a value.
+In such situations we have default parameters.
+In the code below (the one under constructor initialization lists) we see that
+the constructor assumes that any phone that hasn't had a parameter passed to it
+is a Phablet.
+Note that we have applied overloading to the constructor.</p>
+<h3 id="constructor-initalization-lists">Constructor initalization lists<a class="zola-anchor" href="#constructor-initalization-lists" aria-label="Anchor link for: constructor-initalization-lists"><i class="fas fa-link"></i></a> 
+</h3>
+<p>These are also called <em>member initialization lists</em>.
+They are used to initialize data members and base classes in the cases of
+non-default constructors.</p>
+<p>Why do we need constructor initialization lists?</p>
+<ul>
+<li>We save by not having to do an assignment.</li>
+<li>The compiler knows to construct the object with that value in memory.</li>
+</ul>
+<p>It would otherwise construct the object in memory and then start assigning
+values to it's member functions.
+This would lead be bad for performance.</p>
+<p>Explained further: the difference between using constructor initialization list
+and custom constructors through assignment is run-time speed.
+If you have a class with a few large data members, assignment construction
+(or constructing by assignment) can create a lot of extra overhead.</p>
+<p>Constructors are used to assign values to data members however the
+initialization isn't done within the body of constructors; such kind of
+initialization would actually be <em>assignment</em> and not initialization and would
+have the drawbacks stated above.
+Keep in mind that data members are initialized in the order they are
+<em>declared</em>, not the order they appear in the constructor initialisation list.
+It is therefore good practice to add the data members to the initializer list
+in the same order they're declared.</p>
+<p>To quote the wikibook on C++ classes under constructor initialization lists:
+<em>The C++ standard defines that all initialization of data members are done
+before entering the body of constructors.
+This is the reason why certain types (const types and references) cannot be
+assigned to and must be initialized in the constructor initialization list.</em></p>
+<p>Note: <em>we didn't assign. The values look like paramters being passed to data
+members.</em></p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#72ab00;">#include </span><span style="color:#d07711;">&lt;iostream&gt;
+</span><span style="color:#72ab00;">using namespace</span><span style="color:#1f1f1f;"> std;
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">phones </span><span style="color:#1f1f1f;">{
+  </span><span style="color:#7f8989;">//Much thanks to crazypyro in ##programming freenode irc
+</span><span style="color:#1f1f1f;">  string my_name;
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#7f8989;">// A default crazypro argument.
+  </span><span style="color:#c23f31;">phones</span><span style="color:#1f1f1f;">() : </span><span style="color:#5597d6;">my_name</span><span style="color:#1f1f1f;">( </span><span style="color:#d07711;">&quot;Phablet&quot; </span><span style="color:#1f1f1f;">) {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Default name is: &quot; </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#5597d6;">this </span><span style="color:#1f1f1f;">-&gt; </span><span style="color:#5597d6;">get_name </span><span style="color:#1f1f1f;">() </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+  </span><span style="color:#c23f31;">phones</span><span style="color:#1f1f1f;">(string </span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">) : </span><span style="color:#5597d6;">my_name</span><span style="color:#1f1f1f;">( name ) {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Non default name is: &quot; </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#5597d6;">this </span><span style="color:#1f1f1f;">-&gt; </span><span style="color:#5597d6;">get_name </span><span style="color:#1f1f1f;">() </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+  string </span><span style="color:#c23f31;">get_name</span><span style="color:#1f1f1f;">() {</span><span style="color:#72ab00;">return</span><span style="color:#1f1f1f;"> my_name;};
+};
+
+</span><span style="color:#668f14;">int </span><span style="color:#c23f31;">main</span><span style="color:#1f1f1f;">() {
+  phones xiamoi;
+  phones </span><span style="color:#5597d6;">samsung </span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&quot;Samsung&quot;</span><span style="color:#1f1f1f;">);
+  </span><span style="color:#72ab00;">return </span><span style="color:#b3933a;">0</span><span style="color:#1f1f1f;">;
+}
+
+</span><span style="color:#7f8989;">/*
+  Output:
+
+  Default name is: Phablet
+  Non default name is: Samsung
+*/
+</span></code></pre>
+<p>We've overloaded the constructor but used constructor initialization lists
+instead of assigning values. We also passed a default parameter &quot;phablet&quot; to
+the class phones.</p>
+<h3 id="destructors">Destructors<a class="zola-anchor" href="#destructors" aria-label="Anchor link for: destructors"><i class="fas fa-link"></i></a> 
+</h3>
+<p>The Destructor is a special function that is invoked AFTER an object has been
+destroyed to restore the system to a desired state.
+Destructors, like constructors, are declared like any normal member function but
+will share the same name as the class and also lack a type annotation and a
+return value.
+What distinguishes them from constructors is that the destructor's name is
+preceded by a &quot;~&quot;.
+A destructor also can not have arguments and therefore doesn't require brackets
+after the destructor name.
+It also can't be overloaded.
+Destructors are called whenever an object of the class it belongs to is
+destroyed.
+Destructors are crucial in avoiding resource leaks (by deallocating memory) and
+in implementing the <a href="https://en.wikipedia.org/wiki/Resource_Acquisition_Is_Initialization">RAII idiom</a>.</p>
+<p>Sadly in this section there are some concepts of memory management that you may
+not be familiar with.
+You can ignore them and just focus on how to declare a destructor but it might
+be better if you read this <a href="https://en.wikibooks.org/wiki/C%2B%2B_Programming/Memory_Management">wikibooks page on memory management in C++</a>.</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#72ab00;">#include </span><span style="color:#d07711;">&lt;iostream&gt;
+</span><span style="color:#72ab00;">using namespace</span><span style="color:#1f1f1f;"> std;
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">first </span><span style="color:#1f1f1f;">{
+</span><span style="color:#668f14;">int</span><span style="color:#1f1f1f;"> random;
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">first</span><span style="color:#1f1f1f;">() {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;first created.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+  </span><span style="color:#c23f31;">~first</span><span style="color:#1f1f1f;">() {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;first destroyed.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+};
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">composition </span><span style="color:#1f1f1f;">{
+first</span><span style="color:#72ab00;">*</span><span style="color:#1f1f1f;"> firstObj;
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">composition </span><span style="color:#1f1f1f;">() {
+    firstObj </span><span style="color:#72ab00;">= new</span><span style="color:#1f1f1f;"> first;
+    </span><span style="color:#72ab00;">if </span><span style="color:#1f1f1f;">(firstObj </span><span style="color:#72ab00;">!= </span><span style="color:#b3933a;">NULL</span><span style="color:#1f1f1f;">) {
+      cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;firstObj points to an object of first&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+      }
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;An object of composition has been created.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+
+  </span><span style="color:#c23f31;">~composition</span><span style="color:#1f1f1f;">() {
+    </span><span style="color:#72ab00;">delete</span><span style="color:#1f1f1f;"> firstObj;
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;composition destroyed.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+};
+
+</span><span style="color:#668f14;">int </span><span style="color:#c23f31;">main</span><span style="color:#1f1f1f;">() {
+  composition com;
+  </span><span style="color:#72ab00;">return </span><span style="color:#b3933a;">0</span><span style="color:#1f1f1f;">;
+}
+
+</span><span style="color:#7f8989;">/*
+Output:
+
+first created.
+firstObj points to an object of first
+An object of composition has been created.
+first destroyed.
+composition destroyed.
+
+
+With delete firsObj ommited:
+
+first created.
+firstObj points to an object of first
+An object of composition has been created.
+composition destroyed.
+
+*/
+</span></code></pre>
+<p>We created the object firstObj on the heap and therefore had to destroy it in
+class composition's destructor (~composition () ).
+If the line delete firstObj was ommited that would lead to a memory leak
+(memory is held by the program that it shouldn't hold).
+You can try it out yourself.</p>
+<h3 id="static">Static<a class="zola-anchor" href="#static" aria-label="Anchor link for: static"><i class="fas fa-link"></i></a> 
+</h3>
+<p>The static keyword can be used to:</p>
+<ul>
+<li>create permanent storage for local variables in a function</li>
+<li>specify internal linkage</li>
+<li>declare member functions that act like non-member functions</li>
+<li>create a single copy of a data member</li>
+</ul>
+<p><strong>Static member functions</strong>
+Member functions or variables declared static are shared between all instances
+of an object type.
+Meaning that only one copy of the member function or variable exists for any object type</p>
+<p><strong>Member functions callable without an object</strong>
+These member functions are callable even without an object.
+This means that static member functions can be called without creating instances
+of the class. Normally member functions seem to take an implicit <em>this</em>
+parameter. However, in the case of static member functions this isn't the case,
+since they behave as some sort of free (not tied to a class) function.</p>
+<p>To initialize an a static data member you initialize it in the scope right
+outside of the class and refer to it using double semi colons.
+In the below code we see the static data member, citizens::citizenship, being
+initialized in line 19.
+We use the double colon <code>::</code> to show [scope] that is, the level of abstraction
+that a part of our program (class, function, variable) belongs to.
+In this case citizenship and functions inside citizens are declared in a
+different level of abstraction (in class citizens) than where they are being
+called in the case of funtions or initialized in the case of data members
+(citizenship).</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#72ab00;">#include </span><span style="color:#d07711;">&lt;iostream&gt;
+</span><span style="color:#72ab00;">using namespace</span><span style="color:#1f1f1f;"> std;
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">citizens </span><span style="color:#1f1f1f;">{
+  </span><span style="color:#668f14;">static</span><span style="color:#1f1f1f;"> string citizenship;
+
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">citizens </span><span style="color:#1f1f1f;">() {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;New citizen created.&quot;</span><span style="color:#1f1f1f;">;
+  }
+  </span><span style="color:#668f14;">static void </span><span style="color:#c23f31;">setCitizenship</span><span style="color:#1f1f1f;">(string </span><span style="color:#5597d6;">ctzn</span><span style="color:#1f1f1f;">) {
+    citizenship </span><span style="color:#72ab00;">=</span><span style="color:#1f1f1f;"> ctzn;
+  }
+
+  </span><span style="color:#668f14;">static</span><span style="color:#1f1f1f;"> string </span><span style="color:#c23f31;">getCitizenship</span><span style="color:#1f1f1f;">() {</span><span style="color:#72ab00;">return</span><span style="color:#1f1f1f;"> citizenship;}
+
+};
+
+string citizens::citizenship </span><span style="color:#72ab00;">= </span><span style="color:#d07711;">&quot;&quot;</span><span style="color:#1f1f1f;">; </span><span style="color:#7f8989;">// Initalizing citizenship to an empty string.
+
+</span><span style="color:#668f14;">int </span><span style="color:#c23f31;">main</span><span style="color:#1f1f1f;">() {
+  citizens::</span><span style="color:#5597d6;">setCitizenship </span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&quot;Kenyan&quot;</span><span style="color:#1f1f1f;">);
+  cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#1f1f1f;">citizens::</span><span style="color:#5597d6;">getCitizenship</span><span style="color:#1f1f1f;">();
+  </span><span style="color:#72ab00;">return </span><span style="color:#b3933a;">0</span><span style="color:#1f1f1f;">;
+}
+
+</span><span style="color:#7f8989;">/*
+  Output:
+
+  Kenyan
+*/
+</span></code></pre>
+<p>We are interacting with citizenship without having created a citizen.
+Note that the constructor for citizenship never ran or else we would've seen
+the output &quot;New citizen created.&quot;</p>
+<p><strong>Named constructors</strong></p>
+<p>Named constructors are functions used to create an object of a class without
+(directly) using it's constructors.
+Going by how we said that static member functions can be called without
+belonging to an object it means we can use static member functions to make a
+call to a named constructor.
+This can be translated to manually calling the constructor.
+Consequently, we chose the contructor we want to call.</p>
+<p>Other reasons we may want to use named constructors:</p>
+<ul>
+<li>to circumvent the restriction that constructors can be overloaded only if
+their signatures differ.</li>
+<li>making the class non-inheritable by making the constructors private.</li>
+<li>preventing stack allocation by making constructors private</li>
+</ul>
+<p>In the code below we're taking different doubles but we are passing them
+differently to the constructor of the class <code>Temperature</code>.
+If this was part of an API it would give the programmer more freedom since the
+internal representation of temparature would be the same but they can think of
+temperature in the way they are most comfortable.</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#72ab00;">#include </span><span style="color:#d07711;">&lt;iostream&gt;
+</span><span style="color:#72ab00;">using namespace</span><span style="color:#1f1f1f;"> std;
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">Temperature
+</span><span style="color:#1f1f1f;">{
+    </span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+        </span><span style="color:#7f8989;">//these static functions return a temporary object of type Temperature
+        </span><span style="color:#668f14;">static</span><span style="color:#1f1f1f;"> Temperature </span><span style="color:#c23f31;">Fahrenheit </span><span style="color:#1f1f1f;">(</span><span style="color:#668f14;">double </span><span style="color:#5597d6;">f</span><span style="color:#1f1f1f;">);
+        </span><span style="color:#668f14;">static</span><span style="color:#1f1f1f;"> Temperature </span><span style="color:#c23f31;">Celsius </span><span style="color:#1f1f1f;">(</span><span style="color:#668f14;">double </span><span style="color:#5597d6;">c</span><span style="color:#1f1f1f;">);
+        </span><span style="color:#668f14;">static</span><span style="color:#1f1f1f;"> Temperature </span><span style="color:#c23f31;">Kelvin </span><span style="color:#1f1f1f;">(</span><span style="color:#668f14;">double </span><span style="color:#5597d6;">k</span><span style="color:#1f1f1f;">);
+        </span><span style="color:#7f8989;">//A static member function can&#39;t refer to non-static data.
+        </span><span style="color:#668f14;">double </span><span style="color:#c23f31;">getTemperature</span><span style="color:#1f1f1f;">() { </span><span style="color:#72ab00;">return</span><span style="color:#1f1f1f;"> _temp; }
+    </span><span style="color:#668f14;">private</span><span style="color:#1f1f1f;">:
+        </span><span style="color:#c23f31;">Temperature </span><span style="color:#1f1f1f;">(</span><span style="color:#668f14;">double </span><span style="color:#5597d6;">temp</span><span style="color:#1f1f1f;">); </span><span style="color:#7f8989;">//Constructor is private.
+        </span><span style="color:#668f14;">double</span><span style="color:#1f1f1f;"> _temp;
+};
+
+</span><span style="color:#7f8989;">//_temp instantiated outside of Temparature class.
+</span><span style="color:#1f1f1f;">Temperature::</span><span style="color:#c23f31;">Temperature </span><span style="color:#1f1f1f;">(</span><span style="color:#668f14;">double </span><span style="color:#5597d6;">temp</span><span style="color:#1f1f1f;">)</span><span style="color:#72ab00;">:</span><span style="color:#5597d6;">_temp </span><span style="color:#1f1f1f;">(temp) {}
+
+Temperature Temperature::</span><span style="color:#c23f31;">Fahrenheit </span><span style="color:#1f1f1f;">(</span><span style="color:#668f14;">double </span><span style="color:#5597d6;">f</span><span style="color:#1f1f1f;">)
+{ </span><span style="color:#72ab00;">return </span><span style="color:#5597d6;">Temperature </span><span style="color:#1f1f1f;">((f </span><span style="color:#72ab00;">+ </span><span style="color:#b3933a;">459.67</span><span style="color:#1f1f1f;">) </span><span style="color:#72ab00;">/ </span><span style="color:#b3933a;">1.8</span><span style="color:#1f1f1f;">); }
+
+Temperature Temperature::</span><span style="color:#c23f31;">Celsius </span><span style="color:#1f1f1f;">(</span><span style="color:#668f14;">double </span><span style="color:#5597d6;">c</span><span style="color:#1f1f1f;">)
+{ </span><span style="color:#72ab00;">return </span><span style="color:#5597d6;">Temperature </span><span style="color:#1f1f1f;">(c </span><span style="color:#72ab00;">+ </span><span style="color:#b3933a;">273.15</span><span style="color:#1f1f1f;">); }
+
+Temperature Temperature::</span><span style="color:#c23f31;">Kelvin </span><span style="color:#1f1f1f;">(</span><span style="color:#668f14;">double </span><span style="color:#5597d6;">k</span><span style="color:#1f1f1f;">)
+{ </span><span style="color:#72ab00;">return </span><span style="color:#5597d6;">Temperature </span><span style="color:#1f1f1f;">(k); }
+
+</span><span style="color:#668f14;">int </span><span style="color:#c23f31;">main</span><span style="color:#1f1f1f;">() {
+  </span><span style="color:#7f8989;">// We are initializing the objects created here via kelvin(), celsius() and fahrenheit()
+  // to objects
+  // kelvin, celsius and fahrenheit.
+</span><span style="color:#1f1f1f;">  Temperature kelvin </span><span style="color:#72ab00;">= </span><span style="color:#1f1f1f;">Temperature::</span><span style="color:#5597d6;">Kelvin </span><span style="color:#1f1f1f;">(</span><span style="color:#b3933a;">300.0</span><span style="color:#1f1f1f;">);
+  Temperature celsius </span><span style="color:#72ab00;">= </span><span style="color:#1f1f1f;">Temperature::</span><span style="color:#5597d6;">Celsius </span><span style="color:#1f1f1f;">(</span><span style="color:#b3933a;">26.85</span><span style="color:#1f1f1f;">);
+  Temperature fahrenheit </span><span style="color:#72ab00;">= </span><span style="color:#1f1f1f;">Temperature::</span><span style="color:#5597d6;">Fahrenheit</span><span style="color:#1f1f1f;">(</span><span style="color:#b3933a;">80.33</span><span style="color:#1f1f1f;">);
+
+  cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Entered kelvin &quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> kelvin.</span><span style="color:#5597d6;">getTemperature </span><span style="color:#1f1f1f;">() </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Entered celsius &quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> celsius.</span><span style="color:#5597d6;">getTemperature </span><span style="color:#1f1f1f;">() </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Entered fahrenheit &quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> fahrenheit.</span><span style="color:#5597d6;">getTemperature </span><span style="color:#1f1f1f;">() </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+
+  </span><span style="color:#72ab00;">return </span><span style="color:#b3933a;">0</span><span style="color:#1f1f1f;">;
+}
+
+</span><span style="color:#7f8989;">/*
+Output:
+
+Entered kelvin 300
+Entered celsius 300
+Entered fahrenheit 300
+*/
+</span></code></pre>
+<p>One cannot define a static function ( or a member function) that refers to
+non-static data.
+We are initializing the objects created here via functions Kelvin(), Celsius()
+and Fahrenheit() to objects kelvin, celsius and fahrenheit so these objects will
+be created holding these objects.
+The static functions in this code example return a temporary object of type
+Temperature each.</p>
+<h3 id="composition">Composition<a class="zola-anchor" href="#composition" aria-label="Anchor link for: composition"><i class="fas fa-link"></i></a> 
+</h3>
+<p>A composition is a class which has at least one of it's data members being an
+object of another class.
+For example below the class composition is a composition.</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#72ab00;">#include </span><span style="color:#d07711;">&lt;iostream&gt;
+</span><span style="color:#72ab00;">using namespace</span><span style="color:#1f1f1f;"> std;
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">bird </span><span style="color:#1f1f1f;">{
+  string species;
+
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">bird </span><span style="color:#1f1f1f;">() {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;New bird created.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+  </span><span style="color:#668f14;">void </span><span style="color:#c23f31;">setSpecies </span><span style="color:#1f1f1f;">(string </span><span style="color:#5597d6;">sp</span><span style="color:#1f1f1f;">) {
+    species </span><span style="color:#72ab00;">=</span><span style="color:#1f1f1f;"> sp;
+  }
+  string </span><span style="color:#c23f31;">getSpecies </span><span style="color:#1f1f1f;">() {
+    </span><span style="color:#72ab00;">return</span><span style="color:#1f1f1f;"> species;
+  }
+};
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">composition </span><span style="color:#1f1f1f;">{
+  bird chicken;
+};
+
+</span><span style="color:#668f14;">int </span><span style="color:#c23f31;">main</span><span style="color:#1f1f1f;">() {
+  composition newComposition;
+  </span><span style="color:#72ab00;">return </span><span style="color:#b3933a;">0</span><span style="color:#1f1f1f;">;
+}
+
+</span><span style="color:#7f8989;">/*
+  Output:
+
+  New bird created.
+*/
+</span></code></pre><h3 id="inheritance">Inheritance<a class="zola-anchor" href="#inheritance" aria-label="Anchor link for: inheritance"><i class="fas fa-link"></i></a> 
+</h3>
+<p>So inheritance is a rather huge topic for me to explain here.
+It's best you read it elsewhere.
+I shall just explain how to do inheritance in C++.
+Multiple inheritance to be specific.
+In the below case we shall have 3 classes</p>
+<ul>
+<li>two base classes
+<ul>
+<li>baseClassA</li>
+<li>baseClassB;</li>
+</ul>
+</li>
+<li>one child class that will inherit from both classes
+<ul>
+<li>childClass.</li>
+</ul>
+</li>
+</ul>
+<p>We shall see the use of constructor initialization lists with multiple
+inheritance and regarding constructors of parent classes.</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#72ab00;">#include </span><span style="color:#d07711;">&lt;iostream&gt;
+</span><span style="color:#72ab00;">using namespace</span><span style="color:#1f1f1f;"> std;
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">baseClassA </span><span style="color:#1f1f1f;">{
+  string aString;
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">baseClassA </span><span style="color:#1f1f1f;">(string </span><span style="color:#5597d6;">aStr</span><span style="color:#1f1f1f;">): </span><span style="color:#5597d6;">aString</span><span style="color:#1f1f1f;">(aStr) {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Base class A object created.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+};
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">baseClassB </span><span style="color:#1f1f1f;">{
+  </span><span style="color:#668f14;">int</span><span style="color:#1f1f1f;"> bInt;
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">baseClassB </span><span style="color:#1f1f1f;">(</span><span style="color:#668f14;">int </span><span style="color:#5597d6;">bin</span><span style="color:#1f1f1f;">): </span><span style="color:#5597d6;">bInt</span><span style="color:#1f1f1f;">(bin) {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Base class B object created&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+};
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">childClass</span><span style="color:#1f1f1f;">: </span><span style="color:#668f14;">public </span><span style="font-style:italic;color:#b06936;">baseClassA</span><span style="color:#1f1f1f;">, </span><span style="color:#668f14;">public </span><span style="font-style:italic;color:#b06936;">baseClassB </span><span style="color:#1f1f1f;">{
+  </span><span style="color:#668f14;">bool</span><span style="color:#1f1f1f;"> cBool;
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">childClass</span><span style="color:#1f1f1f;">(</span><span style="color:#668f14;">bool </span><span style="color:#5597d6;">bul</span><span style="color:#1f1f1f;">, string </span><span style="color:#5597d6;">aStr</span><span style="color:#1f1f1f;">, </span><span style="color:#668f14;">int </span><span style="color:#5597d6;">bIn</span><span style="color:#1f1f1f;">): </span><span style="color:#5597d6;">cBool</span><span style="color:#1f1f1f;">(bul), </span><span style="color:#5597d6;">baseClassA</span><span style="color:#1f1f1f;">(aStr), </span><span style="color:#5597d6;">baseClassB </span><span style="color:#1f1f1f;">(bIn) {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Child class of multiple inheritance object created.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+};
+
+</span><span style="color:#668f14;">int </span><span style="color:#c23f31;">main</span><span style="color:#1f1f1f;">() {
+  childClass </span><span style="color:#5597d6;">kid </span><span style="color:#1f1f1f;">(</span><span style="color:#b3933a;">true</span><span style="color:#1f1f1f;">, </span><span style="color:#d07711;">&quot;cats&quot;</span><span style="color:#1f1f1f;">, </span><span style="color:#b3933a;">3</span><span style="color:#1f1f1f;">);
+  </span><span style="color:#72ab00;">return </span><span style="color:#b3933a;">0</span><span style="color:#1f1f1f;">;
+}
+
+</span><span style="color:#7f8989;">/*
+  Output:
+
+  Base class A object created.
+  Base class B object created
+  Child class of multiple inheritance object created.
+*/
+</span></code></pre><h3 id="dynamic-polymorphism">Dynamic Polymorphism<a class="zola-anchor" href="#dynamic-polymorphism" aria-label="Anchor link for: dynamic-polymorphism"><i class="fas fa-link"></i></a> 
+</h3>
+<p>It would do you better to read this <a href="https://en.wikibooks.org/wiki/C%2B%2B_Programming/Classes#Dynamic_polymorphism_.28Overrides.29">Dynamic polymorphism</a> but since I already
+read it I'll just give you the part that I feel is most relevant.</p>
+<p>Suppose that we have two classes, A and B. B derives from A and redefines the
+implementation of a method c() that resides in class A.
+Now suppose that we have an object b of class B. How should the instruction
+b.c() be interpreted?</p>
+<p>If b is declared in the stack (not declared as a pointer or a reference) the
+compiler applies <strong>static binding</strong>, this means it interprets (at compile time)
+that we refer to the implementation of c() that resides in B.</p>
+<p>However, if we declare b as a pointer or a reference of class A, the compiler
+could not know which method to call at compile time, because b can be of type
+A or B.
+If this is resolved at run time, the method that resides in B will be called.
+This is called <strong>dynamic binding</strong>. If this is resolved at compile time, the
+method that resides in A will be called. This is again, <strong>static binding</strong>.</p>
+<h3 id="virtual-member-funtions">Virtual Member Funtions<a class="zola-anchor" href="#virtual-member-funtions" aria-label="Anchor link for: virtual-member-funtions"><i class="fas fa-link"></i></a> 
+</h3>
+<p>Virtual member functions are member functions, that can be overridden in any
+class derived from the one where they were declared.
+Sort of like you can &quot;overwrite&quot; the funtion in the derived class.
+This is done by placing the keyword virtual before the method declaration.
+For example</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#668f14;">virtual </span><span style="color:#5597d6;">memberFunc</span><span style="color:#1f1f1f;">() {
+    </span><span style="color:#7f8989;">/*Member function code*/
+</span><span style="color:#1f1f1f;">}
+</span></code></pre>
+<p>The point is that when the compiler has to decide between applying static
+binding or dynamic binding it will apply dynamic binding. Otherwise, static
+binding will be applied.
+If the base class function is virtual all subclass overrides of it will also be
+virtual.
+However it is still good practice to add the virtual keyword before function
+definitions in subclasses, clarity and all.</p>
+<p>In this case assume we were simulating marketing companies in the world so.
+The new one will redefine marketing. (There's a mutifaceted joke here btw :'-D )</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#72ab00;">#include </span><span style="color:#d07711;">&lt;iostream&gt;
+</span><span style="color:#72ab00;">using namespace</span><span style="color:#1f1f1f;"> std;
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">oldCompany </span><span style="color:#1f1f1f;">{
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#668f14;">virtual void </span><span style="color:#c23f31;">marketing </span><span style="color:#1f1f1f;">() {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;How old company does marketing.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+};
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">newCompany</span><span style="color:#1f1f1f;">: </span><span style="color:#668f14;">public </span><span style="font-style:italic;color:#b06936;">oldCompany </span><span style="color:#1f1f1f;">{
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#668f14;">virtual void </span><span style="color:#c23f31;">marketing </span><span style="color:#1f1f1f;">() {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Redefing marketing :D&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+};
+
+
+</span><span style="color:#668f14;">int </span><span style="color:#c23f31;">main</span><span style="color:#1f1f1f;">() {
+  newCompany newish;
+  oldCompany oldish;
+  oldish.</span><span style="color:#5597d6;">marketing </span><span style="color:#1f1f1f;">();
+  newish.</span><span style="color:#5597d6;">marketing</span><span style="color:#1f1f1f;">();
+  </span><span style="color:#72ab00;">return </span><span style="color:#b3933a;">0</span><span style="color:#1f1f1f;">;
+}
+
+</span><span style="color:#7f8989;">/*
+  Output:
+
+  How old company does marketing.
+  Redefing marketing :D
+*/
+</span></code></pre><h4 id="pure-virtual-member-functions">Pure Virtual Member Functions<a class="zola-anchor" href="#pure-virtual-member-functions" aria-label="Anchor link for: pure-virtual-member-functions"><i class="fas fa-link"></i></a> 
+</h4>
+<p>Sometimes we don't want to provide an implementation of our function at all,
+but want to <strong>force</strong> people sub-classing our class to provide an implementation
+on their own.</p>
+<p>To create a pure virtual function:</p>
+<ul>
+<li>Include the keyword &quot;virtual&quot; before the &quot;void&quot; type annotation for the pure virtual member function.</li>
+<li>Don't write the function code (not even the braces {} however, just add '= 0' after function declaration.</li>
+</ul>
+<p>For example: <em>virtual void pureFunc() = 0;</em></p>
+<p>In the code below the pure virtual function &quot;divorce ()&quot; makes &quot;person&quot; an abstact class.
+This way anyone deriving from class person will have to implement <em>divorce ()</em> or their code won't compile.
+Assumption: This is by assumption that a person without a gender can't undergo divorce.
+If that is offensive to anyone I'm sorry and I believe anyone should be able to marry anyone and divorce them if they want.</p>
+<pre style="background-color:#f5f5f5;">
+<code><span style="color:#72ab00;">#include </span><span style="color:#d07711;">&lt;iostream&gt;
+
+</span><span style="color:#72ab00;">using namespace</span><span style="color:#1f1f1f;"> std;
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">person </span><span style="color:#1f1f1f;">{
+  string names, spouse, gender;
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">person </span><span style="color:#1f1f1f;">(string </span><span style="color:#5597d6;">nm</span><span style="color:#1f1f1f;">): </span><span style="color:#5597d6;">names </span><span style="color:#1f1f1f;">(nm) {
+    </span><span style="color:#7f8989;">// To demonstrate that the parent object is called before the child object.
+</span><span style="color:#1f1f1f;">    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;New person created. &quot; </span><span style="color:#1f1f1f;">;
+  }
+
+  </span><span style="color:#7f8989;">//pure virtual function &quot;divorce ()&quot; makes &quot;person&quot; an abstact class
+  </span><span style="color:#668f14;">virtual void </span><span style="color:#c23f31;">divorce </span><span style="color:#1f1f1f;">() </span><span style="color:#72ab00;">= </span><span style="color:#b3933a;">0</span><span style="color:#1f1f1f;">;
+
+  string </span><span style="color:#c23f31;">getGender</span><span style="color:#1f1f1f;">() {</span><span style="color:#72ab00;">return</span><span style="color:#1f1f1f;"> gender;}
+
+  </span><span style="color:#668f14;">void </span><span style="color:#c23f31;">resetSpouse</span><span style="color:#1f1f1f;">() {spouse.</span><span style="color:#5597d6;">clear</span><span style="color:#1f1f1f;">();}
+
+  string </span><span style="color:#c23f31;">getSpouse</span><span style="color:#1f1f1f;">() {</span><span style="color:#72ab00;">return</span><span style="color:#1f1f1f;"> spouse;}
+};
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">man</span><span style="color:#1f1f1f;">: </span><span style="color:#668f14;">public </span><span style="font-style:italic;color:#b06936;">person </span><span style="color:#1f1f1f;">{
+  string manGen;
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">man </span><span style="color:#1f1f1f;">(string </span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">): </span><span style="color:#5597d6;">manGen </span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&quot;Male&quot;</span><span style="color:#1f1f1f;">), </span><span style="color:#5597d6;">person</span><span style="color:#1f1f1f;">(name) {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Male added.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+  </span><span style="color:#668f14;">void </span><span style="color:#c23f31;">divorce</span><span style="color:#1f1f1f;">() {</span><span style="color:#5597d6;">resetSpouse </span><span style="color:#1f1f1f;">();}
+};
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">trans</span><span style="color:#1f1f1f;">: </span><span style="color:#668f14;">public </span><span style="font-style:italic;color:#b06936;">person </span><span style="color:#1f1f1f;">{
+string transGen;
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">trans </span><span style="color:#1f1f1f;">(string </span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">): </span><span style="color:#5597d6;">transGen </span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&quot;Trans&quot;</span><span style="color:#1f1f1f;">), </span><span style="color:#5597d6;">person</span><span style="color:#1f1f1f;">(name) {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Trans added.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+  </span><span style="color:#668f14;">void </span><span style="color:#c23f31;">divorce</span><span style="color:#1f1f1f;">() {</span><span style="color:#5597d6;">resetSpouse </span><span style="color:#1f1f1f;">();}
+};
+
+</span><span style="color:#668f14;">class </span><span style="color:#c23f31;">woman</span><span style="color:#1f1f1f;">: </span><span style="color:#668f14;">public </span><span style="font-style:italic;color:#b06936;">person </span><span style="color:#1f1f1f;">{
+  string womanGen;
+</span><span style="color:#668f14;">public</span><span style="color:#1f1f1f;">:
+  </span><span style="color:#c23f31;">woman </span><span style="color:#1f1f1f;">(string </span><span style="color:#5597d6;">name</span><span style="color:#1f1f1f;">): </span><span style="color:#5597d6;">womanGen </span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&quot;Female&quot;</span><span style="color:#1f1f1f;">), </span><span style="color:#5597d6;">person</span><span style="color:#1f1f1f;">(name) {
+    cout </span><span style="color:#72ab00;">&lt;&lt; </span><span style="color:#d07711;">&quot;Female added.&quot; </span><span style="color:#72ab00;">&lt;&lt;</span><span style="color:#1f1f1f;"> endl;
+  }
+  </span><span style="color:#668f14;">void </span><span style="color:#c23f31;">divorce </span><span style="color:#1f1f1f;">() {</span><span style="color:#5597d6;">resetSpouse </span><span style="color:#1f1f1f;">();}
+
+};
+
+</span><span style="color:#668f14;">int </span><span style="color:#c23f31;">main </span><span style="color:#1f1f1f;">() {
+  woman </span><span style="color:#5597d6;">jane </span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&quot;Jane&quot;</span><span style="color:#1f1f1f;">);
+  man </span><span style="color:#5597d6;">notJane </span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&quot;Jack&quot;</span><span style="color:#1f1f1f;">);
+  trans </span><span style="color:#5597d6;">notJack </span><span style="color:#1f1f1f;">(</span><span style="color:#d07711;">&quot;Unicorn&quot;</span><span style="color:#1f1f1f;">);
+    </span><span style="color:#72ab00;">return </span><span style="color:#b3933a;">0</span><span style="color:#1f1f1f;">;
+}
+
+</span><span style="color:#7f8989;">/*
+Output:
+
+New person created. Male added.
+New person created. Male added.
+New person created. Trans added.
+*/
+</span></code></pre><h2 id="references">References<a class="zola-anchor" href="#references" aria-label="Anchor link for: references"><i class="fas fa-link"></i></a> 
+</h2>
+<p>Basically every link here is a reference but the main ones are:</p>
+<ul>
+<li>[1] Wikibooks classes: <a href="https://en.wikibooks.org/wiki/C%2B%2B_Programming/Classes">Wikibooks</a></li>
+<li>[2] Wikibooks memory management in C++: <a href="https://en.wikibooks.org/wiki/C%2B%2B_Programming/Memory_Management">wikibooks page on memory management in C++</a></li>
+</ul>
+<p>Hail Stallman and may the FOSS be with you.</p>
+
+
+    </section>
+    <footer>
+      <hr>
+      <div>
+        
+        <div class="post-tags">
+          <p>Tags:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;programming&#x2F;">Programming, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;c&#x2F;">C++, </a>
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;tags&#x2F;oop&#x2F;">OOP, </a>
+            
+          </p>
+        </div>
+        
+
+        
+        <div class="post-tags">
+          <p>Categories:
+            
+            <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;categories&#x2F;notes&#x2F;">Notes</a>
+            
+          </p>
+        </div>
+        
+      </div>
+        <nav class="c-pagination p-pagination">
+            <div class="c-pagination__ctrl">
+                <div class="c-pagination__newer">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;back-to-chess&#x2F;">Back to Chess</a>
+                </div>
+                <div class="c-pagination__older">
+                    <a href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;scope-in-inheritance-and-composition-in-c&#x2F;">Scope in inheritance and composition in C++</a>
+                </div>
+            </div>
+        </nav>
+    </footer>
+</article>
+        </main>
+
+        <footer class="l-footer">
+          <div id="socials">
+            <span class="social-item"><i class="fab fa-github"></i><a target="_blank" href="https://github.com/urbanslug">urbanslug</a></span>
+            <span class="social-item"><i class="fab fa-twitter"></i><a target="_blank" href="https://twitter.com/urbanslug">urbanslug</a></span>
+          </div>
+          <p class="p-copyright">
+              
+              
+    All work is under the terms of the <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License, Version 1.3</a>
+
+          </p>
+      </footer>
+
+      
+      <link rel="stylesheet" href="https:&#x2F;&#x2F;blog.njagi.me&#x2F;css&#x2F;katex.min.css">
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;katex.min.js"></script>
+      <script defer src="https:&#x2F;&#x2F;blog.njagi.me&#x2F;js&#x2F;mathtex-script-type.min.js"></script>
+    </body>
+</html>
