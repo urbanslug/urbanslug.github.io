@@ -22,11 +22,12 @@ jobs:
         run: zola build
 
       - name: Commit files
+        run: cd build/
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m "New Post" -a
-          
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
