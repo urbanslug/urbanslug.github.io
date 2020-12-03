@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: apt install snapd
-      - run: snap install --edge zola
+      - run: sudo apt install snapd
+      - run: sudo snap install --edge zola
 
       - name: Create local changes
         run: |
@@ -29,4 +29,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
           branch: "pages"
