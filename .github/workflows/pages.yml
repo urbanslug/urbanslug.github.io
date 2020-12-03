@@ -15,10 +15,11 @@ jobs:
       - run: snap install --edge zola
 
       - name: Create local changes
-        run: zola build
+        run: |
+          zola build
+          cd build/
 
       - name: Commit files
-        run: cd build/
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
