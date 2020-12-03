@@ -14,8 +14,9 @@ jobs:
       - run: sudo apt install snapd
       - run: sudo snap install --edge zola
 
-      - name: Create local changes
+      - name: Build
         run: |
+          ls
           zola build
           cd build/
 
