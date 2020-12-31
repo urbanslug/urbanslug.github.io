@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://blog.njagi.me/sitemap.xml
+Sitemap: https://njagi.me/sitemap.xml
